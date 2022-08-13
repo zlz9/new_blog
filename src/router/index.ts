@@ -1,17 +1,34 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-
+import HomeViewVue from "@/views/home/HomeView.vue";
+import FirstViewVue from "@/components/FirstView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "firstview",
+    component: FirstViewVue,
   },
   {
-    path: "/about",
-    name: "about",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/home",
+    name: "home",
+    component: () => import("@/views/home/HomeView.vue"),
+    redirect: "/home/article",
+    children: [
+      {
+        path: "article",
+        name: "article",
+        component: () => import("@/views/article/ArticleView.vue"),
+      },
+      {
+        path: "aboutme",
+        name: "aboutme",
+        component: () => import("@/views/aboutme/AboutMeView.vue"),
+      },
+    ],
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "error",
+    component: () => import("@/views/error/ErrorView.vue"),
   },
 ];
 
