@@ -1,5 +1,5 @@
 <template>
-  <div>收藏路由</div>
+  <div>面试路由</div>
 </template>
 
 <script setup lang="ts"></script>

@@ -5,9 +5,10 @@ import "nprogress/nprogress.css";
 import nprogress from "nprogress";
 //对axios进行二次封装
 import axios from "axios";
+import router from "@/router";
 const requests = axios.create({
   //配置对象
-  baseURL: "/mock",
+  baseURL: "localhost",
   timeout: 30000,
   withCredentials: true,
 });
@@ -15,14 +16,11 @@ const requests = axios.create({
 // 添加请求拦截器
 requests.interceptors.request.use(
   function (config) {
-    // 在发送请求之前做些什么
-    // 进度条开始
     nprogress.start();
-    // console.log(login.state.token);
-    //需要携带token带给服务器
-    // if (login.state.token) {
-    //   config.headers.token = login.state.token;
-    // }
+    config.headers = config.headers || {};
+    if (localStorage.getItem("token")) {
+      config.headers.token = localStorage.getItem("token") || "";
+    }
     return config;
   },
   function (error) {
@@ -33,16 +31,18 @@ requests.interceptors.request.use(
 
 // 添加响应拦截器
 requests.interceptors.response.use(
-  function (response) {
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
+  function (res) {
     nprogress.done();
-    return response;
+    const code: number = res.data.code;
+    if (code == 401) {
+      router.push("/login");
+    }
+    // if (code != 200) {
+    //   return Promise.reject(res.data);
+    // }
   },
-  function (error) {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
-    return Promise.reject(error);
+  function (err) {
+    return Promise.reject(err);
   }
 );
 

@@ -1,20 +1,36 @@
 <template>
   <el-affix>
     <div class="head">
-      <SearchView class="search" />
+      <SearchDialog ref="$SearchDialog" />
+      <div class="search">
+        <el-button
+          size="large"
+          :icon="Search"
+          round
+          class="search_btn"
+          @click="search"
+          >Search</el-button
+        >
+      </div>
       <div class="title">My Blog😘😘</div>
-      <UserView class="login" />
+      <UserView />
     </div>
   </el-affix>
 </template>
 
 <script setup lang="ts">
 import UserView from "../login/UserView.vue";
-import SearchView from "../search/SearchView.vue";
+import { Search } from "@element-plus/icons-vue";
+import SearchDialog from "../search/SearchDialog.vue";
+import { ref } from "vue";
+const $SearchDialog = ref("$SearchDialog");
+const search = () => {
+  $SearchDialog.value.dialogVisible = true;
+};
 </script>
 
 <style scoped lang="scss">
-$color: rgb(188, 218, 183);
+$color: #213d5b;
 
 .head {
   display: flex;
@@ -23,7 +39,7 @@ $color: rgb(188, 218, 183);
   background-color: $color;
   height: 100px;
   .search {
-    width: 15%;
+    width: 10%;
   }
 }
 .title {
@@ -32,7 +48,8 @@ $color: rgb(188, 218, 183);
   text-align: center;
   font-family: "Comic Sans MS", cursive;
 }
-.login {
-  width: 15%;
+.search_btn {
+  height: 40px;
+  width: 100%;
 }
 </style>
