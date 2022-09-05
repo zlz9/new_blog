@@ -12,7 +12,7 @@
           <router-view></router-view>
         </el-main>
         <el-aside class="board">
-          <BulletinBoard></BulletinBoard>
+          <BulletinBoard />
         </el-aside>
       </el-container>
     </el-container>
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import NavView from "@/components/nav/NavView.vue";
 import MenuView from "@/components/menu/MenuView.vue";
-import BulletinBoard from "@/components/bulletin-board/BulletinBoard.vue";
+// import BulletinBoard from "@/components/bulletin-board/BulletinBoard.vue";
 </script>
 
 <style scoped lang="scss">

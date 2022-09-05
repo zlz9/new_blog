@@ -3,22 +3,54 @@
     <div class="title">
       <div class="title">did you study today</div>
     </div>
-    <DialogView ref="$dialog"></DialogView>
-    <v-md-editor v-model="text" height="800px" @save="save"></v-md-editor>
+    <DialogView ref="$dialog" :articleBody="articleBody"></DialogView>
+    <v-md-editor
+      v-model="articleBody.text"
+      height="800px"
+      @save="save"
+      :disabled-menus="[]"
+      @upload-image="handleUploadImage"
+    ></v-md-editor>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import DialogView from "@/components/dialog/DialogView.vue";
-const text = ref("");
+import { addImgApi } from "@/api";
+interface IarticleBody {
+  text: string;
+  html: string;
+}
 const $dialog = ref<InstanceType<typeof DialogView> | null>(null);
-const save = (text: any, html: any) => {
+const articleBody = reactive<IarticleBody>({ text: "", html: "" });
+const save = (text: string, html: string) => {
   $dialog.value.dialogVisible = true;
-  console.log(text, html);
+  articleBody.html = html;
+
+  console.log(text);
+};
+const handleUploadImage = (event, insertImage, files) => {
+  for (let i in files) {
+    const formData = new FormData();
+    formData.append("image", files[i]);
+    addImgApi(formData).then(
+      (response) => {
+        insertImage({
+          url: response.msg,
+          width: "auto",
+          height: "auto",
+          desc: "BLOG",
+        });
+      },
+      (error) => {
+        console.log("请求失败了", error.message);
+      }
+    );
+  }
 };
 onMounted(() => {
-  console.log(text);
+  console.log(articleBody.text);
 });
 </script>
 

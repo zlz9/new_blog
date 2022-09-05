@@ -71,19 +71,19 @@ const menuList = reactive([
     },
     children: [
       {
-        path: "/hotarticle",
-        name: "HotArticle",
+        path: "/hot",
+        name: "Hot",
         meta: {
           title: "热门文章",
           icon: "Notebook",
         },
       },
       {
-        path: "/tagarticle",
-        name: "TagArticle",
+        path: "/tag",
+        name: "Tag",
         meta: {
           title: "标签",
-          icon: "CollectionTag",
+          icon: "Notebook",
         },
       },
     ],
@@ -155,8 +155,6 @@ const menuList = reactive([
     },
   },
 ]);
-console.log(noChildren, "noChildren");
-console.log(hasChildren, "hasChildren");
 </script>
 
 <style lang="scss" scoped>

@@ -23,10 +23,31 @@
 </template>
 
 <script setup lang="ts">
-import router from "@/router";
 import { ArrowDown } from "@element-plus/icons-vue";
+import { logoutApi } from "@/api";
+import router from "@/router";
+import { ElMessage } from "element-plus";
+import { useUserStore } from "@/store/user";
 const logout = () => {
-  router.push("/login");
+  logoutApi().then((res) => {
+    if (res.code == 200) {
+      const userStore = useUserStore();
+      /**
+       * 清除用用户信息
+       */
+
+      userStore.menu = [];
+      userStore.token = "";
+      userStore.perms = [];
+      userStore.userInfo = {};
+      localStorage.clear;
+      ElMessage({
+        type: "success",
+        message: "退出登录成功",
+      });
+    }
+    router.push("/login");
+  });
 };
 </script>
 

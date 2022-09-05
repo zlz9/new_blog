@@ -12,7 +12,9 @@
           >Search</el-button
         >
       </div>
-      <div class="title">My Blog😘😘</div>
+      <div class="title">
+        {{ nickName ? nickName + "の" : "猪猪侠の" }} Blog😘😘
+      </div>
       <UserView />
     </div>
   </el-affix>
@@ -23,7 +25,11 @@ import UserView from "../login/UserView.vue";
 import { Search } from "@element-plus/icons-vue";
 import SearchDialog from "../search/SearchDialog.vue";
 import { ref } from "vue";
+import { useUserStore } from "@/store/user";
 const $SearchDialog = ref("$SearchDialog");
+const userStore = useUserStore();
+const nickName = userStore.userInfo.nickName;
+
 const search = () => {
   $SearchDialog.value.dialogVisible = true;
 };

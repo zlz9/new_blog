@@ -1,30 +1,51 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomePage from "@/views/home/HomeView.vue";
+import { useUserStore } from "@/store/user";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
     component: HomePage,
-    redirect: "/article",
+    redirect: "/hot",
     children: [
       {
         path: "/article",
         name: "Article",
-        component: () => import("@/views/article/ArticleView.vue"),
         meta: {
           title: "文章",
           icon: "Notebook",
         },
         children: [
           {
-            path: "/hotarticle",
-            name: "HotArticle",
+            path: "/hot",
+            name: "Hot",
             component: () => import("@/views/article/HotArticle.vue"),
+            meta: {
+              title: "热门文章",
+              icon: "Notebook",
+            },
+          },
+          /**
+           * 文章详情
+           */
+          {
+            path: "/article/info",
+            name: "ArticleInfo",
+            component: () => import("@/views/article/ArticleInfo.vue"),
+            meta: {
+              title: "文章详情",
+              icon: "Notebook",
+            },
           },
           {
-            path: "/tagarticle",
-            name: "TagArticle",
+            path: "/tag",
+            name: "Tag",
             component: () => import("@/views/article/TagArticle.vue"),
+            meta: {
+              title: "标签",
+              icon: "Notebook",
+            },
           },
         ],
       },
@@ -113,4 +134,12 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (!userStore.token && to.path !== "/login") {
+    next("/login");
+  } else {
+    next();
+  }
+});
 export default router;

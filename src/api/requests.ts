@@ -3,12 +3,15 @@
 // 引入进度条
 import "nprogress/nprogress.css";
 import nprogress from "nprogress";
+import { ElMessage } from "element-plus";
 //对axios进行二次封装
 import axios from "axios";
+import { useUserStore } from "@/store/user";
 import router from "@/router";
+
 const requests = axios.create({
   //配置对象
-  baseURL: "localhost",
+  baseURL: "http://localhost:8082",
   timeout: 30000,
   withCredentials: true,
 });
@@ -18,9 +21,8 @@ requests.interceptors.request.use(
   function (config) {
     nprogress.start();
     config.headers = config.headers || {};
-    if (localStorage.getItem("token")) {
-      config.headers.token = localStorage.getItem("token") || "";
-    }
+    const userStore = useUserStore();
+    config.headers.token = userStore.token;
     return config;
   },
   function (error) {
@@ -32,14 +34,9 @@ requests.interceptors.request.use(
 // 添加响应拦截器
 requests.interceptors.response.use(
   function (res) {
+    console.log(res.data, "响应的东西");
     nprogress.done();
-    const code: number = res.data.code;
-    if (code == 401) {
-      router.push("/login");
-    }
-    // if (code != 200) {
-    //   return Promise.reject(res.data);
-    // }
+    return Promise.resolve(res.data);
   },
   function (err) {
     return Promise.reject(err);
