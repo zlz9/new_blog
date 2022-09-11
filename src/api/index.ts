@@ -3,6 +3,8 @@ import { loginParmas, IascnyRouter, Iperms } from "@/model/user";
 import { tagList } from "@/model/tag";
 import { IresArticle } from "@/model/article";
 
+import { ImenuItem, Ires } from "@/model/user";
+
 export const LoginApi = (params: loginParmas) =>
   requests({
     url: "/api/user/login",
@@ -31,7 +33,7 @@ export const getPermsApi = (): Promise<Iperms> => {
 };
 
 // /api/user/menu 获取当前用户的menu表
-export const getMenuApi = (): Promise<IascnyRouter> => {
+export const getMenuApi = (): Promise<Ires<ImenuItem>> => {
   return requests.get("/api/user/menu");
 };
 // /api/user/info 获取当前登录用户信息

@@ -24,15 +24,21 @@
 import UserView from "../login/UserView.vue";
 import { Search } from "@element-plus/icons-vue";
 import SearchDialog from "../search/SearchDialog.vue";
-import { ref } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 import { useUserStore } from "@/store/user";
 const $SearchDialog = ref("$SearchDialog");
 const userStore = useUserStore();
-const nickName = userStore.userInfo.nickName;
-
+let nickName = ref("");
 const search = () => {
   $SearchDialog.value.dialogVisible = true;
 };
+watch(
+  userStore,
+  () => {
+    nickName.value = userStore.userInfo.nickName;
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped lang="scss">

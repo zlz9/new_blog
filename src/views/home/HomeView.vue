@@ -5,14 +5,17 @@
         <NavView />
       </el-header>
       <el-container>
-        <el-aside width="200px">
-          <MenuView />
+        <el-aside class="menu">
+          <el-affix :offset="120">
+            <MenuView />
+          </el-affix>
         </el-aside>
+
         <el-main class="main">
           <router-view></router-view>
         </el-main>
         <el-aside class="board">
-          <BulletinBoard />
+          <el-affix :offset="120"> <BulletinBoard /></el-affix>
         </el-aside>
       </el-container>
     </el-container>
@@ -22,7 +25,7 @@
 <script setup lang="ts">
 import NavView from "@/components/nav/NavView.vue";
 import MenuView from "@/components/menu/MenuView.vue";
-// import BulletinBoard from "@/components/bulletin-board/BulletinBoard.vue";
+// import BulletinBoard from "@/components/bulletin-board/BulletinBoard.vue"
 </script>
 
 <style scoped lang="scss">
@@ -34,6 +37,9 @@ import MenuView from "@/components/menu/MenuView.vue";
   min-height: 600px;
   // border: 1px solid red;
   cursor: pointer;
+}
+.menu {
+  width: 200px;
 }
 .board {
   display: flex;

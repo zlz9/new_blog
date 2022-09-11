@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./router";
 import Particles from "particles.vue3";
 import "animate.css/animate.min.css";
-import { createPinia } from "pinia";
 // v-md-editor
 import VMdPreviewHtml from "@kangc/v-md-editor/lib/preview-html";
 import VueMarkdownEditor from "@kangc/v-md-editor";
@@ -15,13 +14,16 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "element-plus/theme-chalk/el-loading.css";
 import "element-plus/theme-chalk/el-message.css";
 
-import piniaPersistPlugin from "pinia-plugin-persist";
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
 });
-// import pinia from "./store/store";
+// pinia
+import { createPinia } from "pinia";
+import piniaPersist from "pinia-plugin-persist";
 const pinia = createPinia();
-pinia.use(piniaPersistPlugin);
+pinia.use(piniaPersist);
+// 暂时解决不了
+// import store from "./store";
 const app = createApp(App);
 
 app

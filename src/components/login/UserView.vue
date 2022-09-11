@@ -1,13 +1,11 @@
 <template>
   <div class="user">
     <div>
-      <el-avatar
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-      />
+      <el-avatar :src="avator" />
     </div>
     <el-dropdown>
       <span class="el-dropdown-link">
-        user
+        {{ nickName }}
         <el-icon class="el-icon--right">
           <arrow-down />
         </el-icon>
@@ -23,15 +21,26 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
 import { logoutApi } from "@/api";
 import router from "@/router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
+const userStore = useUserStore();
+let avator = ref("");
+let nickName = ref("");
+watch(
+  userStore,
+  () => {
+    avator.value = userStore.userInfo.avator;
+    nickName.value = userStore.userInfo.nickName;
+  },
+  { immediate: true }
+);
 const logout = () => {
   logoutApi().then((res) => {
     if (res.code == 200) {
-      const userStore = useUserStore();
       /**
        * 清除用用户信息
        */

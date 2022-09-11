@@ -16,11 +16,11 @@
         >{{ tag.tagName }}</el-checkbox
       >
     </div>
-    <div>父组件传过来的值{{ articleBody }}</div>
+    <!-- <div>父组件传过来的值{{ articleBody }}</div> -->
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="publish">Confirm</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="publish">发布</el-button>
       </span>
     </template>
   </el-dialog>
@@ -31,7 +31,9 @@ import { ref, onMounted, reactive } from "vue";
 import { getTag } from "@/api";
 import { tag } from "@/model/tag";
 import { publishApi } from "@/api";
+import { useRouter } from "vue-router";
 let tagList = ref([]);
+const router = useRouter();
 const chooseTag = (tagId) => {
   tagList.value.push(tagId);
 };
@@ -71,9 +73,12 @@ const publish = () => {
     title: article.title,
   };
   publishApi(params).then((res) => {
-    console.log(params.title, "params");
+    if (res.code == 200) {
+      console.log(res);
 
-    console.log(res);
+      let id = res.data.id;
+      router.push({ path: "/article/info", query: { id } });
+    }
   });
 };
 const dialogVisible = ref(false);

@@ -2,7 +2,7 @@
   <div class="box">
     <el-row :gutter="20">
       <el-col :span="6" v-for="item in tags" :key="item.tagId" class="col">
-        <el-card :body-style="{ padding: '0px' }">
+        <el-card :body-style="{ padding: '0px' }" class="card">
           <img :src="item.tagCover" class="image" />
           <div style="padding: 14px">
             <span></span>
@@ -38,6 +38,11 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+::v-deep .el-card,
+.is-always-shadow {
+  width: 100%;
+  height: 100%;
+}
 .box {
   .col {
     margin-top: 20px;
@@ -59,8 +64,9 @@ onMounted(() => {
       min-height: auto;
     }
 
-    .image {
+    ::v-deep .image {
       width: 100%;
+      height: 150px;
       display: block;
     }
   }

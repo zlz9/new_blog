@@ -1,13 +1,7 @@
-import { defineStore } from 'pinia'
+import { createPinia } from "pinia";
+import piniaPersist from "pinia-plugin-persist";
 
-export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
-  getters: {
-    double: state => state.count * 2,
-  },
-  actions: {
-    increment() {
-      this.count++
-    },
-  },
-})
+const store = createPinia();
+store.use(piniaPersist);
+
+export default store;

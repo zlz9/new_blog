@@ -118,7 +118,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             setTimeout(() => {
               router.push("/");
             }, 1500);
-            userStore.setToken(res.data.token);
+            userStore.token = res.data.token;
             console.log(userStore.token, "token");
             ElMessage({
               message: "登录成功",

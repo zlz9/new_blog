@@ -1,26 +1,32 @@
 <template>
-  <div v-for="item in articles" :key="item.id" @click="goArticleInfo(item.id)">
-    <div class="article">
-      <h3>{{ item.title }}</h3>
-      <span>2022-12-16</span>
-      <div class="body_html" v-html="item.summary"></div>
-      <div class="footer">
-        <div class="tag">
-          <el-tag type="success" v-for="tag in item.tags" :key="tag.tagId">{{
-            tag.tagName
-          }}</el-tag>
-        </div>
-        <div class="view">
-          <div>
-            <el-icon class="icon"><View /></el-icon><span>22</span>
+  <transition-group name="list">
+    <div
+      v-for="item in articles"
+      :key="item.id"
+      @click="goArticleInfo(item.id)"
+    >
+      <div class="article">
+        <h3>{{ item.title }}</h3>
+        <span>2022-12-16</span>
+        <div class="body_html" v-html="item.summary"></div>
+        <div class="footer">
+          <div class="tag">
+            <el-tag type="success" v-for="tag in item.tags" :key="tag.tagId">{{
+              tag.tagName
+            }}</el-tag>
           </div>
-          <div>
-            <el-icon class="icon"><Reading /></el-icon><span>33</span>
+          <div class="view">
+            <div>
+              <el-icon class="icon"><View /></el-icon><span>22</span>
+            </div>
+            <div>
+              <el-icon class="icon"><Reading /></el-icon><span>33</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition-group>
 </template>
 
 <script setup lang="ts">
@@ -47,9 +53,9 @@ const goArticleInfo = (id) => {
 getPermsApi().then((res) => {
   userStore.perms = res.data;
 });
-getMenuApi().then((res) => {
-  userStore.menu = res.data as [];
-});
+// getMenuApi().then((res) => {
+//   userStore.menu = res.data as [];
+// });
 // 获取用户信息
 getUserApi().then((res) => {
   userStore.userInfo = res.data;
@@ -61,7 +67,17 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 .article {
+  font-family: "Comic Sans MS", cursive;
   display: flex;
   flex-direction: column;
   align-items: center;
