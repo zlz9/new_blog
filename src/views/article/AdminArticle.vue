@@ -1,70 +1,114 @@
 <template>
-  <el-table :data="filterTableData" style="width: 100%">
-    <el-table-column label="Date" prop="date" />
-    <el-table-column label="Name" prop="name" />
+  <el-table :data="articleData.articleList" style="width: 100%">
+    <el-table-column label="标题" prop="title" />
+    <el-table-column label="摘要" prop="summary" />
+    <el-table-column
+      label="发布时间"
+      prop="createTime"
+      :formatter="formatterTime"
+    />
+
     <el-table-column align="right">
       <template #header>
-        <el-input v-model="search" size="small" placeholder="Type to search" />
+        <el-input
+          v-model="pageParams.query"
+          size="large"
+          placeholder="搜索文章"
+          @keydown.enter="getArticles"
+        />
       </template>
       <template #default="scope">
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-          >Edit</el-button
+        <el-button size="large" @click="handleEdit(scope.$index, scope.row)"
+          >编辑</el-button
         >
-        <el-button
-          size="small"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
-          >Delete</el-button
+        <el-popconfirm
+          title="Are you sure to delete this?"
+          @confirm="handleDelete(scope.$index, scope.row)"
         >
+          <template #reference>
+            <el-button size="large">Delete</el-button>
+          </template>
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
+  <el-pagination
+    style="justify-content: end"
+    hide-on-single-page
+    v-model:currentPage="pageParams.page"
+    v-model:page-size="pageParams.pageSize"
+    layout="prev, pager, next, jumper"
+    :total="articleData.total"
+    @current-change="handleCurrentChange"
+  />
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, reactive, onMounted } from "vue";
+import { IarticleInfo } from "@/model/article";
+import dayjs from "dayjs";
+import { currentAuthorArticlesApi, delArticle } from "@/api";
+import { ElMessage } from "element-plus";
+import { useRouter, useRoute } from "vue-router";
+/**
+ * 发送请求获取当前用户文章信息
+ */
+const router = useRouter();
+const route = useRoute();
+let pageParams = reactive({
+  page: 1,
+  pageSize: 10,
+  query: "",
+});
+let articleData = reactive({
+  articleList: [],
+  total: Number(""),
+});
 
-interface User {
-  date: string;
-  name: string;
-  address: string;
-}
-
-const search = ref("");
-const filterTableData = computed(() =>
-  tableData.filter(
-    (data) =>
-      !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase())
-  )
-);
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row);
+const getArticles = async () => {
+  const res = await currentAuthorArticlesApi(pageParams);
+  articleData.articleList = res.data.articleList;
+  articleData.total = res.data.total;
+  // console.log(res.data.total, "total2");
 };
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row);
+
+onMounted(() => {
+  getArticles();
+});
+// 格式化时间
+const formatterTime = (row) => {
+  return dayjs(row.createTime).format("YYYY-MM-DD");
+};
+// 修改文章
+const handleEdit = (index: number, row: IarticleInfo) => {
+  console.log(row.id, "row");
+  router.push({ path: "/write", query: { id: row.id } });
+};
+// 删除文章
+const handleDelete = (index: number, row: IarticleInfo) => {
+  console.log(row.id, "row");
+  delArticle(row.id).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: "删除文章成功！",
+        type: "success",
+      });
+    }
+    setTimeout(() => {
+      getArticles();
+    }, 800);
+  });
 };
 
-const tableData: User[] = [
-  {
-    date: "2016-05-03",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-02",
-    name: "John",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-04",
-    name: "Morgan",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-01",
-    name: "Jessy",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-];
+/**
+ * 分页查询
+ */
+
+const handleCurrentChange = (val: number) => {
+  pageParams.page = val;
+  getArticles();
+};
+// 删除文章
 </script>
+
+<style scoped lang="scss"></style>

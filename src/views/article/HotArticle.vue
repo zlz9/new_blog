@@ -7,7 +7,7 @@
     >
       <div class="article">
         <h3>{{ item.title }}</h3>
-        <span>2022-12-16</span>
+        <span>{{ day(item.createTime).format("YYYY-MM-DD") }}</span>
         <div class="body_html" v-html="item.summary"></div>
         <div class="footer">
           <div class="tag">

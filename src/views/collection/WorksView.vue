@@ -1,60 +1,66 @@
 <template>
   <div>
-    <div class="box">
-      <el-row :gutter="20">
-        <el-col :span="6" v-for="(o, index) in 6" :key="o" class="col">
-          <el-card :body-style="{ padding: '0px' }">
-            <img
-              src="https://bpic.588ku.com/element_origin_min_pic/19/04/22/1a4323b5ed12b04af11057134f30adf3.jpg"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span></span>
-              <div class="bottom">
-                <time class="time">{{ summary }}</time>
-                <el-button text class="button">查看详情</el-button>
-              </div>
-            </div>
-          </el-card>
-          <div
-        /></el-col>
-      </el-row>
-    </div>
+    <Waterfall :list="list" backgroundColor="">
+      <template #item="{ item, url, index }">
+        <div class="card">
+          <LazyImg :url="item.src" />
+          <p class="text">这是内容</p>
+        </div>
+      </template>
+    </Waterfall>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { LazyImg, Waterfall } from "vue-waterfall-plugin-next";
+import "vue-waterfall-plugin-next/style.css";
+const list = ref([
+  {
+    src: "https://bpic.588ku.com/element_origin_min_pic/19/04/22/1a4323b5ed12b04af11057134f30adf3.jpg",
+  },
+  {
+    src: "https://pic2.zhimg.com/v2-35337484e7087db539bd922a74f790e8_720w.jpg?source=172ae18b",
+  },
+  {
+    src: "https://ts1.cn.mm.bing.net/th/id/R-C.cf23526f451784ff137f161b8fe18d5a?rik=F9%2by9DNUlPcyug&riu=http%3a%2f%2fvue.awesometiny.com%2flogo.png&ehk=iRCrccZ5rRQ7bD4aal9%2f6yyNiPw3s8xLT4bBNd%2f0cmQ%3d&risl=&pid=ImgRaw&r=0",
+  },
+  {
+    src: "https://tse4-mm.cn.bing.net/th/id/OIP-C.-0Yo1Z8tZqAv5NzpULpH4QHaDi?pid=ImgDet&rs=1",
+  },
+  {
+    src: "https://cdn.filestackcontent.com/IEMTnwZrR2SJNoRUw6Tq",
+  },
+  {
+    src: "https://cdn.filestackcontent.com/IEMTnwZrR2SJNoRUw6Tq",
+  },
+  {
+    src: "https://cdn.filestackcontent.com/IEMTnwZrR2SJNoRUw6Tq",
+  },
+  {
+    src: "https://cdn.filestackcontent.com/IEMTnwZrR2SJNoRUw6Tq",
+  },
 
-const summary = ref("如何学习java");
+  {
+    src: "https://pic2.zhimg.com/v2-35337484e7087db539bd922a74f790e8_720w.jpg?source=172ae18b",
+  },
+  {
+    src: "https://ts1.cn.mm.bing.net/th/id/R-C.cf23526f451784ff137f161b8fe18d5a?rik=F9%2by9DNUlPcyug&riu=http%3a%2f%2fvue.awesometiny.com%2flogo.png&ehk=iRCrccZ5rRQ7bD4aal9%2f6yyNiPw3s8xLT4bBNd%2f0cmQ%3d&risl=&pid=ImgRaw&r=0",
+  },
+  {
+    src: "https://tse4-mm.cn.bing.net/th/id/OIP-C.-0Yo1Z8tZqAv5NzpULpH4QHaDi?pid=ImgDet&rs=1",
+  },
+  {
+    src: "https://cdn.filestackcontent.com/IEMTnwZrR2SJNoRUw6Tq",
+  },
+  {
+    src: "https://cdn.filestackcontent.com/IEMTnwZrR2SJNoRUw6Tq",
+  },
+]);
 </script>
 
 <style scoped lang="scss">
-.box {
-  .col {
-    margin-top: 20px;
-    .time {
-      font-size: 12px;
-      color: #999;
-    }
-
-    .bottom {
-      margin-top: 13px;
-      line-height: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .button {
-      padding: 0;
-      min-height: auto;
-    }
-
-    .image {
-      width: 100%;
-      display: block;
-    }
-  }
+.card {
+  background: #ffff;
 }
 </style>

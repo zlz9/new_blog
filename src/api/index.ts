@@ -1,10 +1,11 @@
 import requests from "./requests";
-import { loginParmas, IascnyRouter, Iperms } from "@/model/user";
+import { loginParmas, Iperms } from "@/model/user";
 import { tagList } from "@/model/tag";
-import { IresArticle } from "@/model/article";
+import { IresArticle, IpageParams } from "@/model/article";
 
 import { ImenuItem, Ires } from "@/model/user";
-
+import { IrecommendArticles, IcurrentArticle } from "@/model/article";
+import { IresMsg } from "@/model/root";
 export const LoginApi = (params: loginParmas) =>
   requests({
     url: "/api/user/login",
@@ -44,19 +45,6 @@ export const getUserApi = () => {
 export const logoutApi = () => {
   return requests.post("/api/user/logout");
 };
-//  /api/publish 发布文章，
-//  参数：
-//  {
-//   "tags":[
-//       {"tagId":1},
-//       {"tagId":2}
-//   ],
-//  "arthorId": 1,
-//  "bodyHtml": "哈哈",
-//  "bodyMd": "#hh",
-//  "summary": "测试一下接口",
-//  "title": "哈哈"
-// }
 export const publishApi = (params: any) => {
   return requests.post("/api/publish", params);
 };
@@ -67,7 +55,45 @@ export const addImgApi = (data: any) => {
 };
 
 // /api/article/{{id}} 文章详情 参数：文章id
-
 export const articleInfo = (id: number) => {
   return requests.get(`/api/article/${id}`);
+};
+
+//推荐文章  /api/article/recommend
+export const recommendArticlesApi = (): Promise<Ires<IrecommendArticles>> => {
+  return requests.get("/api/article/recommend");
+};
+// 获取当前用户的文章列表 /api/article/author
+export const currentAuthorArticlesApi = (params: IpageParams) =>
+  requests({
+    url: "/api/article/author",
+    method: "get",
+    params,
+  });
+// 删除当前登录用户的文章 /api/delelet/article/id={id}
+export const delArticle = (id: number): Promise<IresMsg> => {
+  return requests.post(`/api/delelet/article/id=${id}`);
+};
+/**
+ * 更新文章 /api/article/update 
+ * post
+ * {
+    "id":67,
+    "title":"修改一下文章",
+    "summary":"修改一下文章",
+    "mdBody":"修改一下文章",
+    "tags":[
+        {"tagId":1},
+      {"tagId":2}
+    ]
+}
+ */
+
+export const updateArticleApi = (data: object): Promise<IresMsg> => {
+  return requests.post("/api/article/update", data);
+};
+
+//获取文章评论 /api/article/comment/{id} get 参数id：文章id
+export const getArticleCommentApi = (id: number): Promise<object> => {
+  return requests.get(`/api/article/comment/${id}`);
 };

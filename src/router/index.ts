@@ -138,6 +138,17 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  /**
+   * 路由跳转滚动条
+   * @param to
+   * @param from
+   * @param savedPosition
+   * @returns
+   */
+  scrollBehavior(to, from, savedPosition) {
+    // 始终滚动到顶部
+    return { top: 0 };
+  },
 });
 
 let isF = false; //这个是用于判断动态路由是否已经被获取
@@ -146,7 +157,7 @@ router.beforeEach(async (to, from) => {
   if (to.path == "/login") {
     return true;
   }
-  if (!store.token) {
+  if (!store.token && to.path != "/hot") {
     return { path: "/login" };
   } else {
     if (isF) {

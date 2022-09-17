@@ -35,7 +35,9 @@ const search = () => {
 watch(
   userStore,
   () => {
-    nickName.value = userStore.userInfo.nickName;
+    if (userStore.userInfo) {
+      nickName.value = userStore.userInfo.nickName;
+    }
   },
   { immediate: true }
 );

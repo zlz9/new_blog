@@ -33,8 +33,10 @@ let nickName = ref("");
 watch(
   userStore,
   () => {
-    avator.value = userStore.userInfo.avator;
-    nickName.value = userStore.userInfo.nickName;
+    if (userStore.userInfo) {
+      avator.value = userStore.userInfo.avator || "";
+      nickName.value = userStore.userInfo.nickName || "";
+    }
   },
   { immediate: true }
 );

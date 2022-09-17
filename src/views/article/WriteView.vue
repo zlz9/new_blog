@@ -15,21 +15,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import DialogView from "@/components/dialog/DialogView.vue";
-import { addImgApi } from "@/api";
+import { addImgApi, articleInfo } from "@/api";
+import { useRoute } from "vue-router";
+const route = useRoute();
+// 文章id
+const id = route.query.id;
 interface IarticleBody {
   text: string;
   html: string;
+  title: string;
+  summary: string;
 }
 const $dialog = ref<InstanceType<typeof DialogView> | null>(null);
-const articleBody = reactive<IarticleBody>({ text: "", html: "" });
+const articleBody = reactive<IarticleBody>({
+  text: "",
+  html: "",
+  title: "",
+  summary: "",
+});
+console.log(articleBody, "articleBoddy");
+
+// const articleHead = reactive<IarticleHead>({});
 const save = (text: string, html: string) => {
   $dialog.value.dialogVisible = true;
+  articleBody.text = text;
   articleBody.html = html;
-
-  console.log(text);
 };
+console.log(articleBody, "articleBody");
+
 const handleUploadImage = (event, insertImage, files) => {
   for (let i in files) {
     const formData = new FormData();
@@ -49,9 +64,18 @@ const handleUploadImage = (event, insertImage, files) => {
     );
   }
 };
-onMounted(() => {
-  console.log(articleBody.text);
-});
+/**
+ * 查询文章赋值给article
+ */
+if (id) {
+  articleInfo(id).then((res) => {
+    articleBody.text = res.data.mdBody;
+    articleBody.html = res.data.htmlBody;
+    articleBody.title = res.data.title;
+    articleBody.summary = res.data.summary;
+    console.log(res, "article");
+  });
+}
 </script>
 
 <style scoped lang="scss">

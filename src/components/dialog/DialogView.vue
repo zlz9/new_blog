@@ -20,19 +20,25 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="publish">发布</el-button>
+        <el-button
+          type="primary"
+          @click="$route.query.id ? update() : publish()"
+          >{{ $route.query.id ? "确认更改" : "发布" }}</el-button
+        >
       </span>
     </template>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from "vue";
-import { getTag } from "@/api";
+import { ref, onMounted, reactive, watch } from "vue";
+import { getTag, updateArticleApi, publishApi } from "@/api";
 import { tag } from "@/model/tag";
-import { publishApi } from "@/api";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { ElMessage } from "element-plus";
 let tagList = ref([]);
+const route = useRoute();
+const id = route.query.id;
 const router = useRouter();
 const chooseTag = (tagId) => {
   tagList.value.push(tagId);
@@ -41,6 +47,8 @@ type Props = {
   articleBody: {
     text: string;
     html: string;
+    title: string;
+    summary: string;
   };
 };
 //  参数：
@@ -60,11 +68,63 @@ let article = reactive({
   summary: "",
   tags: [] as unknown as tag[],
 });
+/**
+ * 判断是否有id
+ * 如果有就赋值article
+ */
+watch(() => {
+  if (id) {
+    article.title = props.articleBody.title;
+    article.summary = props.articleBody.summary;
+  }
+});
+// 更改文章
+/**
+ * 更新文章 /api/article/update
+ * post
+ * {
+    "id":67,
+    "title":"修改一下文章",
+    "summary":"修改一下文章",
+    "mdBody":"修改一下文章",
+    "tags":[
+        {"tagId":1},
+      {"tagId":2}
+    ]
+}
+ */
+const update = () => {
+  let updateParams = {
+    id: route.query.id,
+    tags: tagList.value,
+    mdBody: props.articleBody.text,
+    htmlBody: props.articleBody.html,
+    summary: article.summary,
+    title: article.title,
+  };
+  console.log(updateParams, "updateParams");
+  updateArticleApi(updateParams).then((res) => {
+    if (res.code == 200) {
+      setTimeout(() => {
+        ElMessage({
+          message: "修改文章成功☆*: .｡. o(≧▽≦)o .｡.:*☆",
+          type: "success",
+        });
+        router.push({ path: "/article/info", query: { id } });
+      }, 800);
+    }
+  });
+};
+
+console.log(props.articleBody, "props");
+
 const props = defineProps<Props>();
 /**
  * 发布文章
  */
 const publish = () => {
+  console.log("发布了");
+
   let params = {
     tags: tagList.value,
     bodyHtml: props.articleBody.html,
@@ -74,10 +134,14 @@ const publish = () => {
   };
   publishApi(params).then((res) => {
     if (res.code == 200) {
-      console.log(res);
-
       let id = res.data.id;
-      router.push({ path: "/article/info", query: { id } });
+      setTimeout(() => {
+        ElMessage({
+          message: "发布文章成功☆*: .｡. o(≧▽≦)o .｡.:*☆",
+          type: "success",
+        });
+        router.push({ path: "/article/info", query: { id } });
+      }, 800);
     }
   });
 };
