@@ -19,9 +19,6 @@ VueMarkdownEditor.use(vuepressTheme, {
 });
 
 import * as dayjs from "dayjs";
-// UndrawUi
-import UndrawUi from "undraw-ui";
-import "undraw-ui/dist/style.css";
 // pinia
 import { createPinia } from "pinia";
 import piniaPersist from "pinia-plugin-persist";
@@ -29,6 +26,10 @@ const pinia = createPinia();
 pinia.use(piniaPersist);
 // 暂时解决不了
 // import store from "./store";
+
+import UndrawUi from "undraw-ui";
+import "undraw-ui/dist/style.css";
+
 const app = createApp(App);
 app.config.globalProperties.day = dayjs;
 app

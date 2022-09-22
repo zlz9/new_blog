@@ -125,7 +125,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/components/login/RegisterView.vue"),
   },
   // {
-  //   path: "/:catchAll(.*)",
+  //   path: "/:pathMatch(.*)",
   //   name: "error",
   //   component: () => import("@/views/error/ErrorView.vue"),
   //   meta: {
@@ -166,7 +166,6 @@ router.beforeEach(async (to, from) => {
       // let add = store.getters.menuList || "";
       const add = store.menu;
       console.log(add, "menu");
-
       routerData(add);
       isF = true;
       return { ...to, replace: true };
@@ -195,6 +194,18 @@ const routerData = (result: any) => {
       if (item.children && item.children.length) {
         routerData(item.children);
       }
+      /**
+       * 添加404路由
+       */
+      router.addRoute({
+        path: "/:pathMatch(.*)",
+        name: "error",
+        component: () => import("@/views/error/ErrorView.vue"),
+        meta: {
+          icon: "#",
+          title: "404",
+        },
+      });
     });
   }
 };

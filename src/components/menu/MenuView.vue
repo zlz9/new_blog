@@ -15,11 +15,7 @@
     @close="handleClose"
     router
   >
-    <el-sub-menu
-      :index="item.path"
-      v-for="item in menu.hasChildren"
-      :key="item.path"
-    >
+    <el-sub-menu :index="item.path" v-for="item in menu.hasChildren" :key="item.path">
       <template #title>
         <component :is="item.icon" class="icon"></component>
         <span>{{ item.title }}</span>
@@ -27,9 +23,6 @@
 
       <template v-for="subItem in item.children" :key="subItem.path">
         <el-menu-item-group v-if="subItem.isShow === 'true'">
-          <div>
-            {{ subItem.isShow }}
-          </div>
           <el-menu-item :index="subItem.path" :disable="subItem.isShow">
             <component :is="subItem.icon" class="icon"></component>
             <span>
@@ -41,11 +34,7 @@
     </el-sub-menu>
 
     <!-- 一级导航 -->
-    <el-menu-item
-      :index="item.path"
-      v-for="item in menu.noChildren"
-      :key="item.path"
-    >
+    <el-menu-item :index="item.path" v-for="item in menu.noChildren" :key="item.path">
       <template #title>
         <component :is="item.icon" class="icon"></component>
         <span> {{ item.title }} </span>

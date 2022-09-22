@@ -35,7 +35,6 @@ import MenuView from "@/components/menu/MenuView.vue";
 .main {
   margin: 10px;
   min-height: 600px;
-  // border: 1px solid red;
   cursor: pointer;
 }
 .menu {

@@ -2,12 +2,7 @@
   <el-table :data="articleData.articleList" style="width: 100%">
     <el-table-column label="标题" prop="title" />
     <el-table-column label="摘要" prop="summary" />
-    <el-table-column
-      label="发布时间"
-      prop="createTime"
-      :formatter="formatterTime"
-    />
-
+    <el-table-column label="发布时间" prop="createTime" :formatter="formatterTime" />
     <el-table-column align="right">
       <template #header>
         <el-input
@@ -18,7 +13,10 @@
         />
       </template>
       <template #default="scope">
-        <el-button size="large" @click="handleEdit(scope.$index, scope.row)"
+        <el-button
+          size="large"
+          color="#d9b9d1"
+          @click="handleEdit(scope.$index, scope.row)"
           >编辑</el-button
         >
         <el-popconfirm
@@ -26,7 +24,7 @@
           @confirm="handleDelete(scope.$index, scope.row)"
         >
           <template #reference>
-            <el-button size="large">Delete</el-button>
+            <el-button color="#eb0808" size="large">Delete</el-button>
           </template>
         </el-popconfirm>
       </template>

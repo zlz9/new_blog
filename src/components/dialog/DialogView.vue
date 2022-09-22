@@ -33,7 +33,6 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive, watch } from "vue";
 import { getTag, updateArticleApi, publishApi } from "@/api";
-import { tag } from "@/model/tag";
 import { useRouter, useRoute } from "vue-router";
 import { ElMessage } from "element-plus";
 let tagList = ref([]);

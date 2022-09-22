@@ -8,7 +8,9 @@
             <span></span>
             <div class="bottom">
               <time class="time">{{ item.tagName }}</time>
-              <el-button text class="button">查看详情</el-button>
+              <el-button text class="button" @click="showArticleInfo(item.tagId)"
+                >查看详情</el-button
+              >
             </div>
           </div>
         </el-card>
@@ -23,7 +25,8 @@ import { onMounted, ref } from "vue";
 import { useTagStore } from "@/store/tag";
 import { getTag } from "@/api";
 import { tag } from "@/model/tag";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 let tags = ref<tag[]>();
 const tagStore = useTagStore();
 const tagList = getTag().then((res) => {
@@ -31,7 +34,9 @@ const tagList = getTag().then((res) => {
   tags.value = res.data;
   tagStore.tagList = res.data as [];
 });
-
+const showArticleInfo = (id) => {
+  router.push({ path: "/tagArticle", query: { id: id } });
+};
 onMounted(() => {
   tagList;
 });

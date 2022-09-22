@@ -97,3 +97,19 @@ export const updateArticleApi = (data: object): Promise<IresMsg> => {
 export const getArticleCommentApi = (id: number): Promise<object> => {
   return requests.get(`/api/article/comment/${id}`);
 };
+// 发布文章评论 /api/article/create/comment post
+//  {
+//   "articleId": 0,
+//   "content": "",
+//   "level": 0,
+//   "parentId": 0,
+//   "toUserId": 0
+// }
+export const commentApi = (data: object): Promise<object> => {
+  return requests.post("/api/article/create/comment", data);
+};
+
+// /api/tag/articles id page pageSize get'
+export const getArticleByTagApi = (params: object): Promise<object> => {
+  return requests({ url: "/api/tag/articles", params: params, method: "get" });
+};
