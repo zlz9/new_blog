@@ -43,9 +43,7 @@
         <img :src="imgUrl" alt="" srcset="" @click="changeImgCode" />
       </el-form-item>
       <el-form-item>
-        <el-link type="primary" @click="goRegister"
-          >没有账号？点击跳转到注册页面</el-link
-        >
+        <el-link type="primary" @click="goRegister">没有账号？点击跳转到注册页面</el-link>
       </el-form-item>
       <el-form-item>
         <div class="btn">
@@ -60,11 +58,11 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { FormInstance, ElMessage } from "element-plus";
-import router from "@/router";
+import { useRouter } from "vue-router";
 import { LoginApi } from "@/api";
 import { useUserStore } from "@/store/user";
 const ruleFormRef = ref<FormInstance>();
-
+const router = useRouter();
 const validatePass = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("请输入密码"));
@@ -109,20 +107,20 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (valid) {
       LoginApi(ruleForm)
         .then((res) => {
-          console.log(res, "登录");
           if (res.code == 200) {
-            /**
-             * 获取权限列表，动态路由
-             */
-
             setTimeout(() => {
-              router.push("/");
+              router.replace("/");
             }, 1500);
             userStore.token = res.data.token;
             console.log(userStore.token, "token");
             ElMessage({
               message: "登录成功",
               type: "success",
+            });
+          } else if (res.code == 401) {
+            ElMessage({
+              message: "认证失败,请检查输入",
+              type: "error",
             });
           }
         })

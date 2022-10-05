@@ -24,12 +24,7 @@
     <el-divider> </el-divider>
     <div class="comment">
       <el-card>
-        <div
-          class="user_comments"
-          v-for="(item, index) in commentList"
-          :key="item.id"
-          @click="replyComment(item.author.nickName, item.author.id, item.id)"
-        >
+        <div class="user_comments" v-for="(item, index) in commentList" :key="item.id">
           <div class="userInfo">
             <el-avatar shape="square" :size="30" :src="item.author.avator"></el-avatar>
             <div class="nickName">{{ item.author.nickName }}</div>
@@ -37,8 +32,12 @@
               {{ day(item.createDate).format("YYYY-MM-DD") }}
             </div>
           </div>
-          <div class="content">{{ item.content }}</div>
-
+          <div
+            class="content"
+            @click="replyComment(item.author.nickName, item.author.id, item.id)"
+          >
+            {{ item.content }}
+          </div>
           <!-- 二级评论 -->
           <template v-for="(subItem, index) in item.childrens" :key="subItem.id">
             <div class="sub_user_comments">
@@ -56,7 +55,12 @@
                   {{ day(subItem.createDate).format("YYYY-MM-DD") }}
                 </div>
               </div>
-              <div class="content">{{ subItem.content }}</div>
+              <div
+                class="content"
+                @click="replyComment(subItem.author.nickName, subItem.author.id, item.id)"
+              >
+                {{ subItem.content }}
+              </div>
             </div>
           </template>
         </div>
@@ -83,7 +87,6 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/store/user";
 import { Icomment } from "@/model/comment";
 import { ElMessage } from "element-plus";
-import dayjs from "dayjs";
 const comment = ref("");
 const route = useRoute();
 const articleId = route.query.id;

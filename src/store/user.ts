@@ -9,7 +9,18 @@ export const useUserStore = defineStore("user", {
       token: "",
       perms: [],
       menu: [] as unknown as Array<ImenuItem>,
-      userInfo: {},
+      userInfo: {
+        avator:
+          "http://qiniu.zhoulizheng.cn/43507260-9412-4a12-88f4-eddb2c3a858f.jpg",
+        age: 22,
+        birthday: "",
+        email: "",
+        motto: "",
+        nickName: "",
+        phone: "",
+        sex: "",
+        userName: "",
+      } as any,
     };
   },
   getters: {},
@@ -19,7 +30,6 @@ export const useUserStore = defineStore("user", {
       if (res.code == 200) {
         this.menu = res.data as unknown as Array<ImenuItem>;
       }
-      console.log(res, "res");
     },
   },
 

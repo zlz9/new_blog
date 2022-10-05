@@ -1,21 +1,27 @@
 <template>
   <div class="box">
     <el-row :gutter="20">
-      <el-col :span="6" v-for="item in tags" :key="item.tagId" class="col">
-        <el-card :body-style="{ padding: '0px' }" class="card">
-          <img :src="item.tagCover" class="image" />
-          <div style="padding: 14px">
-            <span></span>
-            <div class="bottom">
-              <time class="time">{{ item.tagName }}</time>
-              <el-button text class="button" @click="showArticleInfo(item.tagId)"
-                >查看详情</el-button
-              >
+      <transition-group
+        mode="out-in"
+        enter-active-class="animate__animated animate__fadeIn"
+        leave-active-class="animate__animated animate__fadeOut"
+      >
+        <el-col :span="6" v-for="item in tags" :key="item.tagId" class="col">
+          <el-card :body-style="{ padding: '0px' }" class="card">
+            <img :src="item.tagCover" class="image" />
+            <div style="padding: 14px">
+              <span></span>
+              <div class="bottom">
+                <time class="time">{{ item.tagName }}</time>
+                <el-button text class="button" @click="showArticleInfo(item.tagId)"
+                  >查看详情</el-button
+                >
+              </div>
             </div>
-          </div>
-        </el-card>
-        <div
-      /></el-col>
+          </el-card>
+          <div
+        /></el-col>
+      </transition-group>
     </el-row>
   </div>
 </template>
@@ -55,7 +61,6 @@ onMounted(() => {
       font-size: 12px;
       color: #999;
     }
-
     .bottom {
       margin-top: 13px;
       line-height: 12px;
@@ -63,12 +68,10 @@ onMounted(() => {
       justify-content: space-between;
       align-items: center;
     }
-
     .button {
       padding: 0;
       min-height: auto;
     }
-
     ::v-deep .image {
       width: 100%;
       height: 150px;

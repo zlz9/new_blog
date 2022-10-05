@@ -34,12 +34,14 @@
     </el-sub-menu>
 
     <!-- 一级导航 -->
-    <el-menu-item :index="item.path" v-for="item in menu.noChildren" :key="item.path">
-      <template #title>
-        <component :is="item.icon" class="icon"></component>
-        <span> {{ item.title }} </span>
-      </template>
-    </el-menu-item>
+    <template v-for="item in menu.noChildren" :key="item.path">
+      <el-menu-item :index="item.path" v-if="item.isShow === 'true'">
+        <template #title>
+          <component :is="item.icon" class="icon"></component>
+          <span> {{ item.title }} </span>
+        </template>
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 <script setup lang="ts">

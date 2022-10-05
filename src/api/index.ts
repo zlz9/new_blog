@@ -2,10 +2,12 @@ import requests from "./requests";
 import { loginParmas, Iperms } from "@/model/user";
 import { tagList } from "@/model/tag";
 import { IresArticle, IpageParams } from "@/model/article";
-
 import { ImenuItem, Ires } from "@/model/user";
-import { IrecommendArticles, IcurrentArticle } from "@/model/article";
+import { IrecommendArticles } from "@/model/article";
 import { IresMsg } from "@/model/root";
+import { IresWork } from "@/model/work";
+import { da } from "element-plus/es/locale";
+
 export const LoginApi = (params: loginParmas) =>
   requests({
     url: "/api/user/login",
@@ -98,13 +100,6 @@ export const getArticleCommentApi = (id: number): Promise<object> => {
   return requests.get(`/api/article/comment/${id}`);
 };
 // 发布文章评论 /api/article/create/comment post
-//  {
-//   "articleId": 0,
-//   "content": "",
-//   "level": 0,
-//   "parentId": 0,
-//   "toUserId": 0
-// }
 export const commentApi = (data: object): Promise<object> => {
   return requests.post("/api/article/create/comment", data);
 };
@@ -112,4 +107,75 @@ export const commentApi = (data: object): Promise<object> => {
 // /api/tag/articles id page pageSize get'
 export const getArticleByTagApi = (params: object): Promise<object> => {
   return requests({ url: "/api/tag/articles", params: params, method: "get" });
+};
+
+// 获取当前用户的作品集 /api/author/works get
+export const getWorksApi = (): Promise<object> => {
+  return requests.get("/api/author/works");
+};
+// 获取作品集 /api/works/detail/{id} get
+export const getWorkDetailApi = (id: number): Promise<object> => {
+  return requests.get(`/api/works/detail/${id}`);
+};
+// 上传作品集 /api/works/update
+/*
+ * @param data
+ * @returns
+ */
+export const updateWorkApi = (data: IresWork): Promise<object> => {
+  return requests.post("/api/works/update", data);
+};
+
+// /api/work/delete/{id} post 参数 删除文章id
+export const deleteWorkApi = (id: string): Promise<object> => {
+  return requests.post(`/api/work/delete/${id}`);
+};
+
+///api/tool get 获取tool
+export const getToolApi = (): Promise<object> => {
+  return requests.get("/api/tool");
+};
+
+// /api/tool/delete/{id} 根据id删除工具 post
+export const deleteToolApi = (id: string): Promise<object> => {
+  return requests.post(`/api/tool/delete/${id}`);
+};
+
+// /api/tool/upload 上传tool工具
+export const uploadTool = (data: object): Promise<object> => {
+  return requests.post("/api/tool/upload", data);
+};
+
+// /api/interview get 获取当前用户的面试资料
+export const getInterViewApi = (): Promise<object> => {
+  return requests.get("/api/interview");
+};
+// {
+//   "cover": "",
+//   "createTime": 0,
+//   "link": "",
+//   "name": "",
+//   "summary": ""
+// }
+// /api/interview/upload post 上传用户面试资料
+export const uploadInterviewApi = (data: object): Promise<object> => {
+  return requests.post("/api/interview/upload", data);
+};
+
+export const updateUserApi = (data: object): Promise<object> => {
+  return requests.post("/api/user/fill/info", data);
+};
+
+// /api/user/register 用户注册
+export const registerApi = (data: object): Promise<object> => {
+  return requests.post("/api/user/register", data);
+};
+
+// 获取邮箱验证码  /api/sendEmail
+export const getEmailCodeApi = (emailReceiver: string): Promise<object> => {
+  return requests({
+    url: "/api/sendEmail",
+    method: "get",
+    params: { emailReceiver: emailReceiver },
+  });
 };

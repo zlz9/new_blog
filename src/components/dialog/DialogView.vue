@@ -1,12 +1,7 @@
 <template>
   <el-dialog v-model="dialogVisible" title="发布文章">
     <el-input v-model="article.title" placeholder="title" />
-    <el-input
-      v-model="article.summary"
-      :rows="2"
-      type="textarea"
-      placeholder="summary"
-    />
+    <el-input v-model="article.summary" :rows="2" type="textarea" placeholder="summary" />
     <div>
       <el-checkbox
         @change="chooseTag({ tagId: tag.tagId })"
@@ -20,11 +15,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button
-          type="primary"
-          @click="$route.query.id ? update() : publish()"
-          >{{ $route.query.id ? "确认更改" : "发布" }}</el-button
-        >
+        <el-button type="primary" @click="$route.query.id ? update() : publish()">{{
+          $route.query.id ? "确认更改" : "发布"
+        }}</el-button>
       </span>
     </template>
   </el-dialog>
@@ -65,7 +58,7 @@ type Props = {
 let article = reactive({
   title: "",
   summary: "",
-  tags: [] as unknown as tag[],
+  tags: ([] as unknown) as tag[],
 });
 /**
  * 判断是否有id
@@ -145,7 +138,6 @@ const publish = () => {
   });
 };
 const dialogVisible = ref(false);
-
 getTag().then((res) => {
   article.tags = res.data;
 });

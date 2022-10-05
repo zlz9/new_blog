@@ -123,6 +123,9 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register",
     name: "Register",
     component: () => import("@/components/login/RegisterView.vue"),
+    meta: {
+      title: "注册",
+    },
   },
   // {
   //   path: "/:pathMatch(.*)",
@@ -152,23 +155,23 @@ const router = createRouter({
 });
 
 let isF = false; //这个是用于判断动态路由是否已经被获取
-router.beforeEach(async (to, from) => {
+router.beforeEach((to, from, next) => {
   const store = useUserStore();
-  if (to.path == "/login") {
-    return true;
-  }
-  if (!store.token && to.path != "/hot") {
-    return { path: "/login" };
+  // 如果是去login 或者是 hot 放行
+  if (to.path == "/login" || to.path == "/hot" || to.path == "/register") {
+    next();
+  } else if (!store.token) {
+    next({ path: "/login" });
   } else {
     if (isF) {
-      return true;
+      next();
     } else {
       // let add = store.getters.menuList || "";
       const add = store.menu;
       console.log(add, "menu");
       routerData(add);
       isF = true;
-      return { ...to, replace: true };
+      next({ ...to, replace: true });
     }
   }
 });

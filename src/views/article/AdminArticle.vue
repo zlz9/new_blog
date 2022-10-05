@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="articleData.articleList" style="width: 100%">
+  <el-table :data="articleData.articleList" style="width: 100%" v-loading="loading">
     <el-table-column label="标题" prop="title" />
     <el-table-column label="摘要" prop="summary" />
     <el-table-column label="发布时间" prop="createTime" :formatter="formatterTime" />
@@ -24,7 +24,7 @@
           @confirm="handleDelete(scope.$index, scope.row)"
         >
           <template #reference>
-            <el-button color="#eb0808" size="large">Delete</el-button>
+            <el-button color="#eb0808" size="large">删除</el-button>
           </template>
         </el-popconfirm>
       </template>
@@ -39,6 +39,12 @@
     :total="articleData.total"
     @current-change="handleCurrentChange"
   />
+  <div class="work_form">
+    <!-- 作品管理 -->
+    <work-form></work-form>
+    <!-- 工具管理 -->
+    <tool-form></tool-form>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -48,6 +54,7 @@ import dayjs from "dayjs";
 import { currentAuthorArticlesApi, delArticle } from "@/api";
 import { ElMessage } from "element-plus";
 import { useRouter, useRoute } from "vue-router";
+const loading = ref(true);
 /**
  * 发送请求获取当前用户文章信息
  */
@@ -65,6 +72,9 @@ let articleData = reactive({
 
 const getArticles = async () => {
   const res = await currentAuthorArticlesApi(pageParams);
+  setTimeout(() => {
+    loading.value = false;
+  }, 1200);
   articleData.articleList = res.data.articleList;
   articleData.total = res.data.total;
   // console.log(res.data.total, "total2");

@@ -12,11 +12,14 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
+          <el-dropdown-item @click="showUserInfo">用户信息</el-dropdown-item>
+          <el-dropdown-item @click="showUpdateUser">修改信息</el-dropdown-item>
           <el-dropdown-item @click="logout">退出</el-dropdown-item>
-          <el-dropdown-item>用户信息</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <userInfo ref="$userInfo" />
+    <update-user ref="$updateUser" />
   </div>
 </template>
 
@@ -28,6 +31,8 @@ import router from "@/router";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
+const $userInfo = ref();
+const $updateUser = ref();
 let avator = ref("");
 let nickName = ref("");
 watch(
@@ -59,6 +64,12 @@ const logout = () => {
     }
     router.push("/login");
   });
+};
+const showUserInfo = () => {
+  $userInfo.value.userForm = true;
+};
+const showUpdateUser = () => {
+  $updateUser.value.upload = true;
 };
 </script>
 

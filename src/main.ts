@@ -26,10 +26,8 @@ const pinia = createPinia();
 pinia.use(piniaPersist);
 // 暂时解决不了
 // import store from "./store";
-
-import UndrawUi from "undraw-ui";
-import "undraw-ui/dist/style.css";
-
+// 图片懒加载
+import lazyPlugin from "vue3-lazy";
 const app = createApp(App);
 app.config.globalProperties.day = dayjs;
 app
@@ -38,7 +36,10 @@ app
   .use(pinia)
   .use(router)
   .use(Particles)
-  .use(UndrawUi)
+  .use(lazyPlugin, {
+    loading: require("../public/static/img/loading.jpg"), // 图片加载时默认图片
+    error: require("../public/static/img/load-false.jpg"), // 图片加载失败时默认图片
+  })
   .mount("#app");
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
