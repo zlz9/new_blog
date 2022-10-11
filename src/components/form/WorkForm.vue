@@ -1,6 +1,7 @@
 <template>
+  <div class="title">作品管理</div>
   <el-divider></el-divider>
-  <el-table :data="workList" style="width: 100%">
+  <el-table :data="workData.workList" style="width: 100%">
     <el-table-column label="创建时间" width="500">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -37,32 +38,45 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-pagination
+    style="justify-content: end"
+    hide-on-single-page
+    v-model:currentPage="pageParams.page"
+    v-model:page-size="pageParams.pageSize"
+    layout="prev, pager, next, jumper"
+    :total="workData.total"
+    @current-change="handleCurrentChange"
+  />
 </template>
 
 <script lang="ts" setup>
 import { Timer } from "@element-plus/icons-vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { getWorksApi, deleteWorkApi } from "@/api";
 import { ElMessage } from "element-plus";
 
-interface IresWork {
-  creatTime: string;
-  description: string;
-  img: [];
-  linkGitee: string;
-  linkGithub: string;
-  name: string;
-  position: string;
-  preview: string;
-}
-
-let workList = ref();
-
-getWorksApi().then((res) => {
-  if (res.code == 200) {
-    workList.value = res.data;
-  }
+let workData = reactive({
+  workList: [],
+  total: Number(""),
 });
+
+let pageParams = reactive({
+  page: 1,
+  pageSize: 10,
+});
+const getWork = () => {
+  return getWorksApi(pageParams).then((res) => {
+    if (res.code == 200) {
+      workData.workList = res.data.workList;
+      workData.total = res.data.total;
+    }
+  });
+};
+
+onMounted(() => {
+  getWork();
+});
+
 const handleDelete = (index: number, row: any) => {
   console.log(row.id);
   deleteWorkApi(row.id).then((res) => {
@@ -71,8 +85,21 @@ const handleDelete = (index: number, row: any) => {
         type: "success",
         message: "删除成功!",
       });
-      getWorksApi();
+      getWork();
     }
   });
 };
+const handleCurrentChange = (val: number) => {
+  pageParams.page = val;
+  getWork();
+};
 </script>
+<style lang="scss" scoped>
+$font-family: "Comic Sans MS", cursive;
+.title {
+  color: antiquewhite;
+  font-family: $font-family;
+  font-size: 20px;
+  margin: 10px;
+}
+</style>

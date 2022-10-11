@@ -2,12 +2,7 @@
   <div class="box">
     <div class="userInfo">
       <el-card>
-        <el-avatar
-          shape="square"
-          :size="100"
-          fit="fill"
-          :src="userInfo.avator"
-        />
+        <el-avatar shape="square" :size="100" fit="fill" :src="userInfo.avator" />
         <div class="nickName">{{ userInfo.nickName }}</div>
       </el-card>
       <el-divider />
@@ -47,7 +42,7 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { articleInfo, getArticleCommentApi } from "@/api";
+import { articleInfo } from "@/api";
 import { ref, reactive, computed } from "vue";
 import { useArticleStore } from "@/store/article";
 const route = useRoute();
@@ -74,12 +69,6 @@ let article = reactive({
   title: "",
   summary: "",
   createTime: "",
-});
-/**
- * 获取文章评论
- */
-getArticleCommentApi(articleId).then((res) => {
-  console.log(res, "文章评论");
 });
 let userInfo = reactive({
   nickName: "",

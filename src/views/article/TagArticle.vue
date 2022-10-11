@@ -22,7 +22,26 @@
           <div
         /></el-col>
       </transition-group>
+      <el-col :span="4">
+        <el-card style="width: 322px; height: 225px; position: relative; top: 20px">
+          <div
+            class="plus"
+            @click="showUpload"
+            style="
+              width: 100%;
+              height: 100%;
+              position: relative;
+              font-size: 60px;
+              right: 20px;
+              bottom: 20px;
+            "
+          >
+            <el-icon style="width: 100%; height: 100%" size="100"><Plus /></el-icon></div
+        ></el-card>
+      </el-col>
     </el-row>
+    <!-- 上传标签 -->
+    <UploadTag ref="$upload" @handle="refresh" />
   </div>
 </template>
 
@@ -33,6 +52,7 @@ import { getTag } from "@/api";
 import { tag } from "@/model/tag";
 import { useRouter } from "vue-router";
 const router = useRouter();
+const $upload = ref();
 let tags = ref<tag[]>();
 const tagStore = useTagStore();
 const tagList = getTag().then((res) => {
@@ -43,12 +63,25 @@ const tagList = getTag().then((res) => {
 const showArticleInfo = (id) => {
   router.push({ path: "/tagArticle", query: { id: id } });
 };
+// 展开上传按钮
+const showUpload = () => {
+  $upload.value.upload = true;
+};
 onMounted(() => {
   tagList;
 });
+
+const refresh = () => {
+  // 再次请求数据
+  tagList;
+};
 </script>
 
 <style scoped lang="scss">
+:deep(.el-card__body) {
+  width: 100%;
+  height: 100%;
+}
 ::v-deep .el-card,
 .is-always-shadow {
   width: 100%;

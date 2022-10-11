@@ -58,8 +58,10 @@
             <el-input v-model="ruleForm.motto" autocomplete="off" type="textarea" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">Submit</el-button>
-            <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+            <el-button type="primary" @click="submitForm(ruleFormRef)" color="#626aef"
+              >上传<el-icon class="el-icon--right"><Upload /></el-icon
+            ></el-button>
+            <el-button @click="resetForm(ruleFormRef)">重置</el-button>
           </el-form-item>
         </el-form>
       </div>

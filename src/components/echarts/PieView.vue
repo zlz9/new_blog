@@ -3,31 +3,56 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
-// Echarts 为init（dom元素后的类型）
-// EChartsOption 为 option 的类型
-import { ECharts, EChartsOption, init } from "echarts";
-
-onMounted(() => {
-  const charEle = document.getElementById("pie") as HTMLElement;
-  console.log();
-  const charEch: ECharts = init(charEle);
-  const option: EChartsOption = {
-    xAxis: {
-      type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+import { onMounted, ref, watch } from "vue";
+import * as echarts from "echarts";
+import { getUserSkills, getSystemUserKills } from "@/api";
+type EChartsOption = echarts.EChartsOption;
+let skillData = ref();
+getSystemUserKills().then((res) => {
+  if (res.code == 200) {
+    skillData.value = res.data.map((item) => {
+      return {
+        name: item.tagName,
+        value: item.articleNum,
+      };
+    });
+    console.log(skillData.value, "skillData.value");
+  }
+});
+const init = () => {
+  var chartDom = document.getElementById("pie");
+  var myChart = echarts.init(chartDom);
+  var option: EChartsOption;
+  option = {
+    tooltip: {
+      trigger: "item",
     },
-    yAxis: {
-      type: "value",
+    legend: {
+      orient: "vertical",
+      left: "left",
     },
     series: [
       {
-        data: [150, 230, 224, 218, 135, 147, 260],
         type: "pie",
+        radius: "50%",
+        data: skillData.value,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)",
+          },
+        },
       },
     ],
   };
-  charEch.setOption(option);
+  option && myChart.setOption(option);
+};
+watch(skillData, () => {
+  init();
+});
+onMounted(() => {
+  init();
 });
 </script>
 

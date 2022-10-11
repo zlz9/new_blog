@@ -3,7 +3,14 @@
     <el-card class="box-card">
       <template #header>
         <div class="card-header">
-          <span><h3>user-info</h3></span>
+          <span
+            ><h3>
+              身份:
+              <span class="role">
+                {{ userInfo.role }}
+              </span>
+            </h3></span
+          >
         </div>
       </template>
       <div class="user_info">
@@ -16,13 +23,20 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, watch, watchEffect } from "vue";
 import { useUserStore } from "@/store/user";
 const store = useUserStore();
 const userInfo = reactive({
-  avator: store.userInfo.avator,
-  nickName: store.userInfo.nickName,
-  motto: store.userInfo.motto,
+  avator: "",
+  nickName: "",
+  motto: "",
+  role: "",
+});
+watchEffect(() => {
+  userInfo.avator = store.userInfo.avator;
+  userInfo.nickName = store.userInfo.nickName;
+  userInfo.motto = store.userInfo.motto;
+  userInfo.role = store.userInfo.role;
 });
 </script>
 
@@ -70,5 +84,14 @@ $font-family: "Comic Sans MS", cursive;
       height: 100%;
     }
   }
+}
+.role {
+  color: rgb(131, 58, 180);
+  color: linear-gradient(
+    90deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(173, 49, 49, 1) 50%,
+    rgba(252, 176, 69, 1) 100%
+  );
 }
 </style>

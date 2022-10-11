@@ -1,7 +1,17 @@
 <template>
   <el-dialog v-model="dialogVisible" title="发布文章">
-    <el-input v-model="article.title" placeholder="title" />
-    <el-input v-model="article.summary" :rows="2" type="textarea" placeholder="summary" />
+    <el-input
+      v-model="article.title"
+      placeholder="title"
+      style="margin: 5px; border: 1px solid background-image: linear-gradient(to right, #acb6e5 , #86fde8 ); border-radius: 10px ;height:40px"
+    />
+    <el-input
+      v-model="article.summary"
+      :rows="2"
+      type="textarea"
+      placeholder="summary"
+      style="margin: 5px; border: 1px solid background-image: linear-gradient(to right, #acb6e5 , #86fde8 ); border-radius: 10px;height:60px"
+    />
     <div>
       <el-checkbox
         @change="chooseTag({ tagId: tag.tagId })"
@@ -24,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, watch } from "vue";
+import { ref, onMounted, reactive, watch, watchEffect } from "vue";
 import { getTag, updateArticleApi, publishApi } from "@/api";
 import { useRouter, useRoute } from "vue-router";
 import { ElMessage } from "element-plus";
@@ -43,18 +53,6 @@ type Props = {
     summary: string;
   };
 };
-//  参数：
-//  {
-//   "tags":[
-//       {"tagId":1},
-//       {"tagId":2}
-//   ],
-//  "arthorId": 1,
-//  "bodyHtml": "哈哈",
-//  "bodyMd": "#hh",
-//  "summary": "测试一下接口",
-//  "title": "哈哈"
-// }
 let article = reactive({
   title: "",
   summary: "",
@@ -64,27 +62,12 @@ let article = reactive({
  * 判断是否有id
  * 如果有就赋值article
  */
-watch(() => {
+watchEffect(() => {
   if (id) {
     article.title = props.articleBody.title;
     article.summary = props.articleBody.summary;
   }
 });
-// 更改文章
-/**
- * 更新文章 /api/article/update
- * post
- * {
-    "id":67,
-    "title":"修改一下文章",
-    "summary":"修改一下文章",
-    "mdBody":"修改一下文章",
-    "tags":[
-        {"tagId":1},
-      {"tagId":2}
-    ]
-}
- */
 const update = () => {
   let updateParams = {
     id: route.query.id,
@@ -151,4 +134,11 @@ onMounted(() => {
 defineExpose({ dialogVisible });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+:deep(.el-dialog__body) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+}
+</style>

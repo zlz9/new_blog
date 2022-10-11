@@ -21,6 +21,7 @@ const requests = axios.create({
 requests.interceptors.request.use(
   function (config) {
     nprogress.start();
+
     config.headers = config.headers || {};
     const userStore = useUserStore();
     config.headers.token = userStore.token;
@@ -56,7 +57,7 @@ requests.interceptors.response.use(
       router.push({ path: "/login" });
       ElMessage({
         type: "error",
-        message: "登录验证过期，请重新登录",
+        message: `${res.data.msg}`,
       });
     }
     return Promise.resolve(res.data);

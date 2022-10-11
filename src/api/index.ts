@@ -1,3 +1,4 @@
+import { PageParams } from "./../model/article";
 import requests from "./requests";
 import { loginParmas, Iperms } from "@/model/user";
 import { tagList } from "@/model/tag";
@@ -6,7 +7,7 @@ import { ImenuItem, Ires } from "@/model/user";
 import { IrecommendArticles } from "@/model/article";
 import { IresMsg } from "@/model/root";
 import { IresWork } from "@/model/work";
-import { da } from "element-plus/es/locale";
+import { get } from "lodash";
 
 export const LoginApi = (params: loginParmas) =>
   requests({
@@ -25,8 +26,13 @@ export const getTag = (): Promise<tagList> => {
 };
 
 // /api/article 获取全部文章 参数 page ,pageSize
-export const getArticleApi = (): Promise<IresArticle> => {
-  return requests.get("/api/article");
+export const getArticleApi = (params: IpageParams): Promise<IresArticle> => {
+  return requests({ url: "/api/article", params, method: "get" });
+};
+
+// /api/article/search/{title} 模糊搜索文章 参数 文章标题 post
+export const searchArticle = (title: string): Promise<object> => {
+  return requests.get(`/api/article/search/${title}`);
 };
 
 // /api/user/perms 获取当前用户权限
@@ -95,9 +101,13 @@ export const updateArticleApi = (data: object): Promise<IresMsg> => {
   return requests.post("/api/article/update", data);
 };
 
-//获取文章评论 /api/article/comment/{id} get 参数id：文章id
-export const getArticleCommentApi = (id: number): Promise<object> => {
-  return requests.get(`/api/article/comment/${id}`);
+//获取文章评论 /api/article/comment get 参数:分页参数和id
+export const getArticleCommentApi = (params: any): Promise<object> => {
+  return requests({
+    url: "/api/article/comment",
+    method: "get",
+    params,
+  });
 };
 // 发布文章评论 /api/article/create/comment post
 export const commentApi = (data: object): Promise<object> => {
@@ -110,8 +120,12 @@ export const getArticleByTagApi = (params: object): Promise<object> => {
 };
 
 // 获取当前用户的作品集 /api/author/works get
-export const getWorksApi = (): Promise<object> => {
-  return requests.get("/api/author/works");
+export const getWorksApi = (page: object): Promise<object> => {
+  return requests({
+    url: "/api/author/works",
+    method: "get",
+    params: page,
+  });
 };
 // 获取作品集 /api/works/detail/{id} get
 export const getWorkDetailApi = (id: number): Promise<object> => {
@@ -131,9 +145,9 @@ export const deleteWorkApi = (id: string): Promise<object> => {
   return requests.post(`/api/work/delete/${id}`);
 };
 
-///api/tool get 获取tool
-export const getToolApi = (): Promise<object> => {
-  return requests.get("/api/tool");
+///api/tool get 获取tool 分页
+export const getToolApi = (params: object): Promise<object> => {
+  return requests({ url: "/api/tool", method: "get", params });
 };
 
 // /api/tool/delete/{id} 根据id删除工具 post
@@ -178,4 +192,59 @@ export const getEmailCodeApi = (emailReceiver: string): Promise<object> => {
     method: "get",
     params: { emailReceiver: emailReceiver },
   });
+};
+
+// 用户管理模块
+
+// 分页查询所有用户信息 /api/user/all 参数page /api/user/all
+export const getAllUserInfoApi = (page: any): Promise<object> => {
+  return requests({ url: "/api/user/all", method: "get", params: page });
+};
+///api/user/lock/{id} 强制下线并且锁定用户 参数id
+export const lockUserApi = (id: any): Promise<object> => {
+  return requests.post(`/api/user/lock/${id}`);
+};
+// /api/user/role 设置用户角色 参数  "id": 0, "role": 0
+export const setRoleApi = (data: object): Promise<object> => {
+  return requests.post("/api/user/role", data);
+};
+// 解锁用户 /api/user/unlock/{id}
+export const unlockUserApi = (id: any): Promise<object> => {
+  return requests.post(`/api/user/unlock/${id}`);
+};
+// 根据id查询用户详细信息 /api/user/{id}
+export const userDetailsApi = (id: any): Promise<object> => {
+  return requests.get(`/api/user/${id}`);
+};
+// 查询锁定用户 /api/user/locked get
+export const getLockedApi = (): Promise<object> => {
+  return requests.get("/api/user/locked");
+};
+// 搜索用户昵称 /user/search/{nickName} get 参数：用户昵称
+export const getUserByNickName = (nickName: string) => {
+  return requests.get(`/api/user/search/${nickName}`);
+};
+/**
+ * 统计用户信息模块
+ */
+//  /api/user/skills 统计用户文章分类
+export const getUserSkills = () => {
+  return requests.get("/api/user/skills");
+};
+// /api/user/month/article 查询当前用户30天的文章数
+export const getMonthArticle = () => {
+  return requests.get("/api/user/month/article");
+};
+//  统计用户文章阅读数  /api/user/article/viewCount
+export const getArticelViewCount = () => {
+  return requests.get("/api/user/article/viewCount");
+};
+// /api/user/work/count 统计用户作品数
+export const getWorkCount = () => {
+  return requests.get("/api/user/work/count");
+};
+
+// 网站模块 /api/system/user/skills get
+export const getSystemUserKills = () => {
+  return requests.get("/api/system/user/skills");
 };

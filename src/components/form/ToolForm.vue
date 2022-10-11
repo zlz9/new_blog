@@ -1,6 +1,7 @@
 <template>
+  <div class="title">开发工具</div>
   <el-divider></el-divider>
-  <el-table :data="toolData" style="width: 100%">
+  <el-table :data="toolData.tools" style="width: 100%">
     <el-table-column label="创建时间" width="500">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -37,32 +38,41 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-pagination
+    style="justify-content: end"
+    hide-on-single-page
+    v-model:currentPage="pageParams.page"
+    v-model:page-size="pageParams.pageSize"
+    layout="prev, pager, next, jumper"
+    :total="toolData.total"
+    @current-change="handleCurrentChange"
+  />
 </template>
 
 <script lang="ts" setup>
 import { Timer } from "@element-plus/icons-vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { getToolApi, deleteToolApi } from "@/api";
 import { ElMessage } from "element-plus";
-
-interface IresWork {
-  creatTime: string;
-  description: string;
-  img: [];
-  linkGitee: string;
-  linkGithub: string;
-  name: string;
-  position: string;
-  preview: string;
-}
-
-let toolData = ref();
-
-getToolApi().then((res) => {
-  if (res.code == 200) {
-    toolData.value = res.data;
-  }
+let pageParams = reactive({
+  page: 1,
+  pageSize: 10,
 });
+let toolData = reactive({
+  tools: [],
+  total: Number(""),
+});
+onMounted(() => {
+  getTool();
+});
+const getTool = () => {
+  return getToolApi(pageParams).then((res) => {
+    if (res.code == 200) {
+      toolData.tools = res.data.data;
+      toolData.total = res.data.total;
+    }
+  });
+};
 const handleDelete = (index: number, row: any) => {
   console.log(row.id);
   deleteToolApi(row.id).then((res) => {
@@ -71,10 +81,26 @@ const handleDelete = (index: number, row: any) => {
         type: "success",
         message: "删除成功!",
       });
-      getToolApi();
+      getTool();
     }
   });
 };
+
+/**
+ * 分页查询
+ */
+const handleCurrentChange = (val: number) => {
+  pageParams.page = val;
+  getTool();
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+$font-family: "Comic Sans MS", cursive;
+.title {
+  color: antiquewhite;
+  font-family: $font-family;
+  font-size: 20px;
+  margin: 10px;
+}
+</style>

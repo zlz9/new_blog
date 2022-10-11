@@ -1,4 +1,5 @@
 <template>
+  <div class="title">文章管理</div>
   <el-table :data="articleData.articleList" style="width: 100%" v-loading="loading">
     <el-table-column label="标题" prop="title" />
     <el-table-column label="摘要" prop="summary" />
@@ -74,10 +75,9 @@ const getArticles = async () => {
   const res = await currentAuthorArticlesApi(pageParams);
   setTimeout(() => {
     loading.value = false;
-  }, 1200);
+  }, 800);
   articleData.articleList = res.data.articleList;
   articleData.total = res.data.total;
-  // console.log(res.data.total, "total2");
 };
 
 onMounted(() => {
@@ -119,4 +119,12 @@ const handleCurrentChange = (val: number) => {
 // 删除文章
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+$font-family: "Comic Sans MS", cursive;
+.title {
+  color: antiquewhite;
+  font-family: $font-family;
+  font-size: 20px;
+  margin: 10px;
+}
+</style>

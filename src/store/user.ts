@@ -28,7 +28,7 @@ export const useUserStore = defineStore("user", {
     async getMenu() {
       const res = await getMenuApi();
       if (res.code == 200) {
-        this.menu = res.data as unknown as Array<ImenuItem>;
+        this.menu = (res.data as unknown as Array<ImenuItem>) || [];
       }
     },
   },

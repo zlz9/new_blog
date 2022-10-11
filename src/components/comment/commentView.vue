@@ -153,9 +153,15 @@ const submitReply = () => {
   });
 };
 
+let pageParams = {
+  id: articleId,
+  page: 1,
+  pageSize: 10,
+};
+
 let commentList = ref<Icomment>();
 const getComment = () => {
-  return getArticleCommentApi(articleId).then((res) => {
+  return getArticleCommentApi(pageParams).then((res) => {
     if (res.code == 200) {
       commentList.value = res.data;
     }

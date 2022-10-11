@@ -1,40 +1,69 @@
 <template>
   <div>
+    <div class="userInfo">
       <el-card>
-        <LineView></LineView>
+        <h3>发布文章阅读数</h3>
+        <div class="count">{{ countData.viewCount }}</div>
       </el-card>
-    <div class="statistics">
-      <el-card class="year_read">
-        <div></div>
+      <el-card
+        ><h3>技能</h3>
+        <PieView />
       </el-card>
-      <el-card class="skills">
-        <div></div>
-      </el-card>
-      <el-card class="month_read">
-        <div></div>
-      </el-card>
-      <el-card class="pub_article"> </el-card>
+      <el-card
+        ><h3>近30天发布文章</h3>
+        <div class="count">{{ countData.articleCount }}</div></el-card
+      >
+      <el-card
+        ><h3>作品数</h3>
+        <div class="count">{{ countData.workCount }}</div></el-card
+      >
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import LineView from "@/components/echarts/LineView.vue";
+<script setup ts="ts">
+import { getMonthArticle, getArticelViewCount, getWorkCount } from "@/api";
+import { reactive } from "vue";
+let countData = reactive({
+  workCount: "",
+  articleCount: "",
+  viewCount: "",
+});
+
+getArticelViewCount().then((res) => {
+  countData.viewCount = res.data;
+});
+getMonthArticle().then((res) => {
+  countData.articleCount = res.data;
+});
+getWorkCount().then((res) => {
+  countData.workCount = res.data;
+});
 </script>
 
 <style lang="scss" scoped>
-.statistics {
+$font-family: "Comic Sans MS", cursive;
+:deep(.el-card__body) {
+  height: 400px;
+  width: 600px;
+}
+.userInfo {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin: 10px;
-  .year_read,
-  .skills,
-  .month_read,
-  .pub_article {
-    width: 600px;
-    height: 300px;
-    margin: 10px;
-  }
+  justify-content: center;
+}
+.count {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  font-size: 100px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-family;
 }
 </style>

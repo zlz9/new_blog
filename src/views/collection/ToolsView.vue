@@ -43,18 +43,11 @@ const showUpload = () => {
   $upload.value.upload = true;
 };
 
-// interface Itools {
-//   name: "";
-//   link: "";
-//   createTime: "";
-//   summary: "";
-//   cover: "";
-// }
 let tools = ref([]);
 const getToolList = () => {
   return getToolApi().then((res) => {
     if (res.code == 200) {
-      tools.value = res.data;
+      tools.value = res.data.data;
     }
   });
 };

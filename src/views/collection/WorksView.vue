@@ -52,7 +52,7 @@ let workList = ref([]);
 const getWorkList = () => {
   return getWorksApi().then((res) => {
     if (res.code == 200) {
-      workList.value = res.data;
+      workList.value = res.data.workList;
     }
   });
 };

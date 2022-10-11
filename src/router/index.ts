@@ -8,15 +8,6 @@ const routes: Array<RouteRecordRaw> = [
     component: HomePage,
     redirect: "/hot",
     children: [
-      // {
-      //   path: "/article",
-      //   name: "Article",
-      //   meta: {
-      //     title: "文章",
-      //     icon: "Notebook",
-      //     isShow: true,
-      //   },
-      //   children: [
       {
         path: "/hot",
         name: "Hot",
@@ -27,88 +18,6 @@ const routes: Array<RouteRecordRaw> = [
           isShow: true,
         },
       },
-      //     /**
-      //      * 文章详情
-      //      */
-      //     {
-      //       path: "/article/info",
-      //       name: "ArticleInfo",
-      //       component: () => import("@/views/article/ArticleInfo.vue"),
-      //       meta: {
-      //         title: "文章详情",
-      //         icon: "Notebook",
-      //         isShow: false,
-      //       },
-      //     },
-      //     {
-      //       path: "/tag",
-      //       name: "Tag",
-      //       component: () => import("@/views/article/TagArticle.vue"),
-      //       meta: {
-      //         title: "标签",
-      //         icon: "Notebook",
-      //         isShow: true,
-      //       },
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: "/write",
-      //   name: "Write",
-      //   component: () => import("@/views/article/WriteView.vue"),
-      // },
-      // {
-      //   path: "/works",
-      //   name: "Works",
-      //   component: () => import("@/views/collection/WorksView.vue"),
-      // },
-      // {
-      //   path: "/interview",
-      //   name: "InterView",
-      //   component: () => import("@/views/collection/InterView.vue"),
-      // },
-      // {
-      //   path: "/tools",
-      //   name: "Tools",
-      //   component: () => import("@/views/collection/ToolsView.vue"),
-      // },
-      // {
-      //   path: "/admin",
-      //   name: "Admin",
-      //   meta: {
-      //     title: "管理",
-      //     icon: "Operation",
-      //   },
-      //   children: [
-      //     {
-      //       path: "/adminArticle",
-      //       name: "AdminArticle",
-      //       component: () => import("@/views/article/AdminArticle.vue"),
-      //       meta: {
-      //         title: "文章管理",
-      //         icon: "Operation",
-      //       },
-      //     },
-      //     {
-      //       path: "/system",
-      //       name: "System",
-      //       component: () => import("@/views/system/SystemView.vue"),
-      //       meta: {
-      //         title: "系统管理",
-      //         icon: "Operation",
-      //       },
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: "/aboutme",
-      //   name: "AboutMe",
-      //   component: () => import("@/views/aboutme/AboutMeView.vue"),
-      //   meta: {
-      //     title: "关于我",
-      //     icon: "Medal",
-      //   },
-      // },
     ],
   },
   {
@@ -127,15 +36,6 @@ const routes: Array<RouteRecordRaw> = [
       title: "注册",
     },
   },
-  // {
-  //   path: "/:pathMatch(.*)",
-  //   name: "error",
-  //   component: () => import("@/views/error/ErrorView.vue"),
-  //   meta: {
-  //     icon: "#",
-  //     title: "404",
-  //   },
-  // },
 ];
 
 const router = createRouter({

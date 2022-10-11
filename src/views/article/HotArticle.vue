@@ -1,51 +1,68 @@
 <template>
-  <transition-group name="list">
-    <div
-      v-for="item in articles"
-      :key="item.id"
-      @click="goArticleInfo(item.id)"
-    >
-      <div class="article">
-        <h3>{{ item.title }}</h3>
-        <span>{{ day(item.createTime).format("YYYY-MM-DD") }}</span>
-        <div class="body_html" v-html="item.summary"></div>
-        <div class="footer">
-          <div class="tag">
-            <el-tag type="success" v-for="tag in item.tags" :key="tag.tagId">{{
-              tag.tagName
-            }}</el-tag>
-          </div>
-          <div class="view">
-            <div>
-              <el-icon class="icon"><View /></el-icon><span>22</span>
+  <div class="articleList">
+    <transition-group name="list">
+      <div
+        v-for="item in articleData.articleList"
+        :key="item.id"
+        @click="goArticleInfo(item.id)"
+      >
+        >
+        <div class="article">
+          <h3>{{ item.title }}</h3>
+          <span>{{ day(item.createTime).format("YYYY-MM-DD") }}</span>
+          <div class="body_html" v-html="item.summary"></div>
+          <div class="footer">
+            <div class="tag">
+              <el-tag type="success" v-for="tag in item.tags" :key="tag.tagId">{{
+                tag.tagName
+              }}</el-tag>
             </div>
-            <div>
-              <el-icon class="icon"><Reading /></el-icon><span>33</span>
+            <div class="view">
+              <div style="display: flex">
+                <el-icon class="icon"><View /></el-icon><span>{{ item.viewCount }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </transition-group>
+    </transition-group>
+    <el-pagination
+      style="justify-content: center; margin: 20px"
+      hide-on-single-page
+      v-model:currentPage="pageParams.page"
+      v-model:page-size="pageParams.pageSize"
+      layout="prev, pager, next, jumper"
+      :total="articleData.total"
+      @current-change="handleCurrentChange"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { getArticleApi } from "@/api";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import { getPermsApi, getMenuApi, getUserApi } from "@/api";
 import { useUserStore } from "@/store/user";
 import { useRouter } from "vue-router";
+const $articleList = ref(null);
 const router = useRouter();
-let articles = ref();
-
-const userStore = useUserStore();
-const articleList = getArticleApi().then((res) => {
-  console.log(res);
-  if (res.code == 200) {
-    articles.value = res.data.data;
-    console.log(articles.value);
-  }
+let articleData = reactive({
+  articleList: [],
+  total: Number(""),
 });
+let pageParams = reactive({
+  page: 1,
+  pageSize: 15,
+});
+const userStore = useUserStore();
+const articleList = () => {
+  return getArticleApi(pageParams).then((res) => {
+    if (res.code == 200) {
+      articleData.articleList = res.data.data;
+      articleData.total = res.data.total;
+    }
+  });
+};
 const goArticleInfo = (id) => {
   router.push({ path: "/article/info", query: { id } });
 };
@@ -59,11 +76,24 @@ getPermsApi().then((res) => {
 // 获取用户信息
 getUserApi().then((res) => {
   userStore.userInfo = res.data;
-  console.log(res, "用户信息");
 });
 onMounted(() => {
-  articleList;
+  articleList();
 });
+/**
+ * 分页查询
+ */
+
+const handleCurrentChange = (val: number) => {
+  pageParams.page = val;
+  articleList();
+
+  scrollTop();
+};
+const scrollTop = (selector) => {
+  let element = (selector && document.querySelector(selector)) || window;
+  element.scrollTo(0, 0);
+};
 </script>
 
 <style scoped lang="scss">
@@ -81,11 +111,9 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
   background-color: rgb(195, 209, 207);
   border-radius: 10px;
-  background-image: linear-gradient(to top, #b3ffab 0%, #12fff7 100%);
+  background-image: linear-gradient(to right, #acb6e5, #86fde8);
   .body_html {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -115,7 +143,7 @@ onMounted(() => {
     }
   }
   .icon {
-    color: rgb(240, 88, 88);
+    color: rgb(202, 158, 158);
   }
 }
 </style>

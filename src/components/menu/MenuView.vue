@@ -50,7 +50,6 @@ import { ref, reactive, computed, onMounted, nextTick } from "vue";
 import { useUserStore } from "@/store/user";
 const isCollapse = ref(true);
 const userStore = useUserStore();
-console.log(userStore.getMenu(), "pinia中的值");
 /**
  *触发pinia请求
  */

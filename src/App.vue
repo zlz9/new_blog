@@ -4,7 +4,32 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
+let isMobile;
+const checkAdvince = () => {
+  if (
+    window.navigator.userAgent.match(
+      /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+    )
+  ) {
+    isMobile = true;
+    // return true; // 移动端
+  } else {
+    isMobile = false;
+    // return false; // PC端
+  }
+};
+checkAdvince();
+onMounted(() => {
+  if (isMobile) {
+    console.log(isMobile, isMobile);
+    // alert("移动端");
+    window.location.href = "http://zhoulizheng.cn/#/";
+  } else {
+    // alert("pc端");
+  }
+});
+
 const options = reactive({
   background: {
     color: {
