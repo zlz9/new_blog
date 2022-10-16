@@ -17,8 +17,10 @@ import "element-plus/theme-chalk/el-message.css";
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
 });
-
+// 自定义指令
+import Direc from "@/directives";
 import * as dayjs from "dayjs";
+// permission
 // pinia
 import { createPinia } from "pinia";
 import piniaPersist from "pinia-plugin-persist";
@@ -30,12 +32,15 @@ pinia.use(piniaPersist);
 import lazyPlugin from "vue3-lazy";
 const app = createApp(App);
 app.config.globalProperties.day = dayjs;
+
+import { checkArray } from "@/permission/Array";
 app
   .use(VueMarkdownEditor)
   .use(VMdPreviewHtml)
   .use(pinia)
   .use(router)
   .use(Particles)
+  .use(Direc)
   .use(lazyPlugin, {
     loading: require("../public/static/img/loading.jpg"), // 图片加载时默认图片
     error: require("../public/static/img/load-false.jpg"), // 图片加载失败时默认图片
@@ -44,3 +49,15 @@ app
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
+app.directive("permission", {
+  mounted(el, binding) {
+    const permission = binding.value; // 获取到 v-permission的值
+    if (permission) {
+      const hasPermission: boolean = checkArray(permission);
+      if (!hasPermission) {
+        // 没有权限 移除Dom元素
+        el.parentNode && el.parentNode.removeChild(el);
+      }
+    }
+  },
+});

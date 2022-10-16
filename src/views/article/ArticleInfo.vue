@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="userInfo">
-      <el-card>
+      <el-card style="display: flex; flex-direction: column; align-items: center">
         <el-avatar shape="square" :size="100" fit="fill" :src="userInfo.avator" />
         <div class="nickName">{{ userInfo.nickName }}</div>
       </el-card>
@@ -35,21 +35,20 @@
       </div>
     </div>
   </div>
-  <div class="comments">
+  <div class="comments" style="overflow: hidden">
     <comment-view></comment-view>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { articleInfo } from "@/api";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch, onMounted } from "vue";
 import { useArticleStore } from "@/store/article";
 const route = useRoute();
 const articleStore = useArticleStore();
-let articleId = route.query.id;
 
-/**
+/*
  *发送获取推荐文章
  */
 
@@ -60,7 +59,9 @@ const articleList = computed({
     return articleStore.recommendArticles;
   },
 });
-
+watch(route, () => {
+  getArticle();
+});
 /**
  * 获取文章详情
  */
@@ -75,17 +76,21 @@ let userInfo = reactive({
   avator: "",
   motto: "",
 });
-
-articleInfo(articleId).then((res) => {
-  if (res.code == 200) {
-    article.articleBody = res.data.htmlBody;
-    article.title = res.data.title;
-    article.summary = res.data.summary;
-    article.createTime = res.data.createTime;
-    userInfo.nickName = res.data.userVo.nickName;
-    userInfo.avator = res.data.userVo.avator;
-    userInfo.motto = res.data.userVo.motto;
-  }
+const getArticle = () => {
+  articleInfo(route.query.id).then((res) => {
+    if (res.code == 200) {
+      article.articleBody = res.data.htmlBody;
+      article.title = res.data.title;
+      article.summary = res.data.summary;
+      article.createTime = res.data.createTime;
+      userInfo.nickName = res.data.userVo.nickName;
+      userInfo.avator = res.data.userVo.avator;
+      userInfo.motto = res.data.userVo.motto;
+    }
+  });
+};
+onMounted(() => {
+  getArticle();
 });
 </script>
 
@@ -130,5 +135,10 @@ $font-family: "Comic Sans MS", cursive;
 :deep .vuepress-markdown-body {
   display: "flex";
   min-height: 900px;
+}
+.nickName {
+  font-family: $font-family;
+  text-align: center;
+  font-weight: 500;
 }
 </style>

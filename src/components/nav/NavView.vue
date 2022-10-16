@@ -3,17 +3,13 @@
     <div class="head">
       <SearchDialog ref="$SearchDialog" />
       <div class="search">
-        <el-button
-          size="large"
-          :icon="Search"
-          round
-          class="search_btn"
-          @click="search"
+        <el-button size="large" :icon="Search" round class="search_btn" @click="search"
           >Search</el-button
         >
       </div>
       <div class="title">
-        {{ nickName ? nickName + "の" : "猪猪侠の" }} Blog😘😘
+        ╰(*°▽°*)╯{{ nickName ? nickName + "の" : "猪猪侠の" }}
+        Blog😘😘
       </div>
       <UserView />
     </div>
@@ -61,6 +57,7 @@ $color: #213d5b;
   font-size: 30px;
   text-align: center;
   font-family: "Comic Sans MS", cursive;
+  color: #1be2d4;
 }
 .search_btn {
   height: 40px;

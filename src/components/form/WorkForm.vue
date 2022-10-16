@@ -1,7 +1,7 @@
 <template>
   <div class="title">作品管理</div>
   <el-divider></el-divider>
-  <el-table :data="workData.workList" style="width: 100%">
+  <el-table :data="workData.workList" style="width: 100%" @cell-dblclick="goWorkInfo">
     <el-table-column label="创建时间" width="500">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -54,7 +54,8 @@ import { Timer } from "@element-plus/icons-vue";
 import { ref, reactive, onMounted } from "vue";
 import { getWorksApi, deleteWorkApi } from "@/api";
 import { ElMessage } from "element-plus";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 let workData = reactive({
   workList: [],
   total: Number(""),
@@ -71,6 +72,11 @@ const getWork = () => {
       workData.total = res.data.total;
     }
   });
+};
+
+// 去详情页
+const goWorkInfo = (row) => {
+  router.push({ path: "/work/info", query: { id: row.id } });
 };
 
 onMounted(() => {

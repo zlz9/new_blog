@@ -10,7 +10,12 @@
           </div>
           <div class="text_area">
             <!-- 评论框 -->
-            <el-input v-model="comment" type="textarea" placeholder="发布您的评论" />
+            <el-input
+              v-model="comment"
+              type="textarea"
+              placeholder="发布您的评论"
+              v-focus
+            />
             <el-button
               style="position: relative; left: 85%; top: 5px"
               @click="confirmComment"
@@ -39,7 +44,10 @@
             {{ item.content }}
           </div>
           <!-- 二级评论 -->
-          <template v-for="(subItem, index) in item.childrens" :key="subItem.id">
+          <template
+            v-for="(subItem, index) in item.childrens.slice(0, 50)"
+            :key="subItem.id"
+          >
             <div class="sub_user_comments">
               <div class="userInfo">
                 <div class="toUser">
@@ -66,8 +74,10 @@
         </div>
       </el-card>
     </div>
+
     <el-dialog v-model="dialogVisible" :title="dialogTitle">
-      <el-input v-model="replyParams.content" type="textarea"></el-input>
+      <!-- 回复 -->
+      <el-input v-model="replyParams.content" type="textarea" v-focus></el-input>
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
@@ -148,7 +158,6 @@ const submitReply = () => {
         getComment();
         replyParams.content = "";
       }, 800);
-      console.log(res, "二级评论");
     }
   });
 };
@@ -156,16 +165,16 @@ const submitReply = () => {
 let pageParams = {
   id: articleId,
   page: 1,
-  pageSize: 10,
+  pageSize: 50,
 };
 
 let commentList = ref<Icomment>();
+// 获取评论列表
 const getComment = () => {
   return getArticleCommentApi(pageParams).then((res) => {
     if (res.code == 200) {
       commentList.value = res.data;
     }
-    console.log(commentList, "评论");
   });
 };
 onMounted(() => {

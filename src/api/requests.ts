@@ -13,6 +13,8 @@ import { useUserStore } from "@/store/user";
 const requests = axios.create({
   //配置对象
   baseURL: "http://localhost:8082",
+  // baseURL: "http://124.221.186.211:6816",
+  // baseURL: "",
   timeout: 30000,
   withCredentials: true,
 });

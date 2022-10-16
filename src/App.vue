@@ -40,11 +40,11 @@ const options = reactive({
   interactivity: {
     events: {
       onClick: {
-        enable: true,
+        enable: false,
         mode: "push", //可用的click模式有: "push", "remove", "repulse", "bubble"。
       },
       onHover: {
-        enable: true,
+        enable: false,
         mode: "grab", //可用的hover模式有: "grab", "repulse", "bubble"。
       },
       resize: true,
@@ -52,7 +52,7 @@ const options = reactive({
     modes: {
       bubble: {
         distance: 400,
-        duration: 2,
+        duration: 1,
         opacity: 0.8,
         size: 40,
       },
@@ -84,7 +84,7 @@ const options = reactive({
       enable: true,
       outMode: "bounce",
       random: false,
-      speed: 4, //粒子运动速度。
+      speed: 2, //粒子运动速度。
       straight: false,
     },
     number: {
@@ -92,7 +92,7 @@ const options = reactive({
         enable: true,
         area: 800,
       },
-      value: 80, //粒子数量。
+      value: 20, //粒子数量。
     },
     opacity: {
       value: 0.5, //粒子透明度。

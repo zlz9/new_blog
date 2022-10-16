@@ -22,7 +22,8 @@
           <div
         /></el-col>
       </transition-group>
-      <el-col :span="4">
+      <!-- 上传权限 -->
+      <el-col :span="4" v-permission="userStore.userInfo.role">
         <el-card style="width: 322px; height: 225px; position: relative; top: 20px">
           <div
             class="plus"
@@ -51,6 +52,8 @@ import { useTagStore } from "@/store/tag";
 import { getTag } from "@/api";
 import { tag } from "@/model/tag";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/user";
+const userStore = useUserStore();
 const router = useRouter();
 const $upload = ref();
 let tags = ref<tag[]>();

@@ -15,10 +15,10 @@ export const LoginApi = (params: loginParmas) =>
     method: "post",
     params,
   });
-
-export function CaptchaApi() {
-  requests({ url: "/api/captcha", method: "get" });
-}
+// 图形验证 /api/captcha
+export const CaptchaApi = (time: string) => {
+  requests({ url: "/api/captcha", method: "get", params: time });
+};
 
 // "/api/tagList"
 export const getTag = (): Promise<tagList> => {
@@ -164,16 +164,13 @@ export const uploadTool = (data: object): Promise<object> => {
 export const getInterViewApi = (): Promise<object> => {
   return requests.get("/api/interview");
 };
-// {
-//   "cover": "",
-//   "createTime": 0,
-//   "link": "",
-//   "name": "",
-//   "summary": ""
-// }
 // /api/interview/upload post 上传用户面试资料
 export const uploadInterviewApi = (data: object): Promise<object> => {
   return requests.post("/api/interview/upload", data);
+};
+// /api/interview/del/{id} 删除面试资料 get
+export const delInterView = (id: any) => {
+  return requests.get(`/api/interview/del/${id}`);
 };
 
 export const updateUserApi = (data: object): Promise<object> => {
@@ -227,9 +224,9 @@ export const getUserByNickName = (nickName: string) => {
 /**
  * 统计用户信息模块
  */
-//  /api/user/skills 统计用户文章分类
+// /api/user/skill 统计用户文章分类
 export const getUserSkills = () => {
-  return requests.get("/api/user/skills");
+  return requests.get("/api/user/skill");
 };
 // /api/user/month/article 查询当前用户30天的文章数
 export const getMonthArticle = () => {
@@ -247,4 +244,16 @@ export const getWorkCount = () => {
 // 网站模块 /api/system/user/skills get
 export const getSystemUserKills = () => {
   return requests.get("/api/system/user/skills");
+};
+// 重置用户密码 /api/reload/password/{id} post
+export const reloadPwdApi = (id: any) => {
+  return requests.get(`/api/reload/password/${id}`);
+};
+// 修改用户密码 /api/user/newpassword post
+export const newpassword = (data: any) => {
+  return requests.post("/api/user/newpassword", data);
+};
+// 统计30天文章分布 /api/article/month/all
+export const getArticleMonth = () => {
+  return requests.get("/api/article/month/all");
 };

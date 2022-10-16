@@ -12,14 +12,15 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="showUserInfo">用户信息</el-dropdown-item>
           <el-dropdown-item @click="showUpdateUser">修改信息</el-dropdown-item>
+          <el-dropdown-item @click="showUPdatePwd">修改密码</el-dropdown-item>
           <el-dropdown-item @click="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
     <userInfo ref="$userInfo" />
     <update-user ref="$updateUser" />
+    <update-pwd ref="$updatePwd" />
   </div>
 </template>
 
@@ -33,6 +34,7 @@ import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
 const $userInfo = ref();
 const $updateUser = ref();
+const $updatePwd = ref();
 let avator = ref("");
 let nickName = ref("");
 watch(
@@ -51,7 +53,6 @@ const logout = () => {
       /**
        * 清除用用户信息
        */
-
       userStore.menu = [];
       userStore.token = "";
       userStore.perms = [];
@@ -65,9 +66,11 @@ const logout = () => {
     router.push("/login");
   });
 };
-const showUserInfo = () => {
-  $userInfo.value.userForm = true;
+
+const showUPdatePwd = () => {
+  $updatePwd.value.upload = true;
 };
+
 const showUpdateUser = () => {
   $updateUser.value.upload = true;
 };

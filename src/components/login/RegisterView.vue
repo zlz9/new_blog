@@ -1,89 +1,92 @@
 <template>
-  <div class="login_bj">
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      class="ruleForm"
-    >
-      <el-form-item>
-        <el-avatar
-          :src="avatorUrl"
-          size="large"
-          shape="circle"
-          fit="fill"
-          class="avator"
-        ></el-avatar>
-      </el-form-item>
+  <div style="display: flex; flex-direction: column; align-items: center">
+    <div class="login_bj">
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        status-icon
+        :rules="rules"
+        class="ruleForm"
+      >
+        <el-form-item>
+          <el-avatar
+            :src="avatorUrl"
+            size="large"
+            shape="circle"
+            fit="fill"
+            class="avator"
+          ></el-avatar>
+        </el-form-item>
 
-      <el-form-item prop="userName">
-        <el-input
-          v-model="ruleForm.userName"
-          type="text"
-          autocomplete="off"
-          placeholder="请输入用户名"
-        />
-      </el-form-item>
-
-      <el-form-item prop="email">
-        <el-input
-          v-model="ruleForm.email"
-          type="text"
-          autocomplete="off"
-          placeholder="请输入QQ邮箱"
-        />
-      </el-form-item>
-
-      <el-form-item prop="code">
-        <div style="display: flex; width: 100%">
+        <el-form-item prop="userName">
           <el-input
-            maxlength="6"
-            minlength="6"
-            v-model="ruleForm.code"
+            v-model="ruleForm.userName"
             type="text"
             autocomplete="off"
-            placeholder="请输入验证码"
+            placeholder="请输入用户名"
           />
-          <el-button
-            style="#5dc1a3;margin-left: 5px"
-            :loading="checkCodeBtn.loading"
-            :disabled="checkCodeBtn.disabled"
-            @click="getCheckCode"
-            >{{ checkCodeBtn.text }}</el-button
-          >
-        </div>
-      </el-form-item>
+        </el-form-item>
 
-      <el-form-item prop="password">
-        <el-input
-          v-model="ruleForm.password"
-          type="password"
-          autocomplete="off"
-          placeholder="请输入密码"
-        />
-      </el-form-item>
+        <el-form-item prop="email">
+          <el-input
+            v-model="ruleForm.email"
+            type="text"
+            autocomplete="off"
+            placeholder="请输入QQ邮箱"
+          />
+        </el-form-item>
 
-      <el-form-item prop="checkPass">
-        <el-input
-          v-model="ruleForm.checkPass"
-          type="password"
-          autocomplete="off"
-          placeholder="请再次确认密码"
-        />
-      </el-form-item>
+        <el-form-item prop="code">
+          <div style="display: flex; width: 100%">
+            <el-input
+              maxlength="6"
+              minlength="6"
+              v-model="ruleForm.code"
+              type="text"
+              autocomplete="off"
+              placeholder="请输入验证码"
+            />
+            <el-button
+              style="#5dc1a3;margin-left: 5px"
+              :loading="checkCodeBtn.loading"
+              :disabled="checkCodeBtn.disabled"
+              @click="getCheckCode"
+              >{{ checkCodeBtn.text }}</el-button
+            >
+          </div>
+        </el-form-item>
 
-      <el-form-item>
-        <el-link type="primary" @click="goLogin">已有账号？</el-link>
-      </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            v-model="ruleForm.password"
+            type="password"
+            autocomplete="off"
+            placeholder="请输入密码"
+          />
+        </el-form-item>
 
-      <el-form-item>
-        <div class="btn">
-          <el-button @click="submitForm(ruleFormRef)">登录</el-button>
-          <el-button @click="resetForm(ruleFormRef)">重置</el-button>
-        </div>
-      </el-form-item>
-    </el-form>
+        <el-form-item prop="checkPass">
+          <el-input
+            v-model="ruleForm.checkPass"
+            type="password"
+            autocomplete="off"
+            placeholder="请再次确认密码"
+          />
+        </el-form-item>
+
+        <el-form-item>
+          <el-link type="primary" @click="goLogin">已有账号？</el-link>
+        </el-form-item>
+
+        <el-form-item>
+          <div class="btn">
+            <el-button @click="submitForm(ruleFormRef)">登录</el-button>
+            <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </div>
+    <FooterView class="footer" />
   </div>
 </template>
 
@@ -248,7 +251,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 
 const avatorUrl = ref(
-  "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+  "http://qiniu.zhoulizheng.cn/43507260-9412-4a12-88f4-eddb2c3a858f.jpg"
 );
 
 const goLogin = () => {
@@ -281,5 +284,9 @@ $color: #213d5b;
       justify-content: space-between;
     }
   }
+}
+.footer {
+  top: 500px;
+  width: 90%;
 }
 </style>

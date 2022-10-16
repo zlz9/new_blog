@@ -17,7 +17,9 @@
           </el-card>
           <div
         /></el-col>
+        <!-- 上传权限 -->
         <el-col
+          v-permission="userStore.userInfo.role"
           :span="4"
           style="
             height: 210px;
@@ -44,6 +46,8 @@ import { ref, onMounted } from "vue";
 import "vue-waterfall-plugin-next/style.css";
 import { getWorksApi } from "@/api";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/user";
+const userStore = useUserStore();
 const router = useRouter();
 const $upload = ref();
 

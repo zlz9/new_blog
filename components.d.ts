@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ArticleTag: typeof import('./src/components/echarts/ArticleTag.vue')['default']
     AutocompleteView: typeof import('./src/components/search/AutocompleteView.vue')['default']
     BulletinBoard: typeof import('./src/components/bulletin-board/BulletinBoard.vue')['default']
     CommentView: typeof import('./src/components/comment/commentView.vue')['default']
@@ -52,7 +53,9 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    FooterView: typeof import('./src/components/footer/FooterView.vue')['default']
     InterViewForm: typeof import('./src/components/form/InterViewForm.vue')['default']
+    LineView: typeof import('./src/components/echarts/LineView.vue')['default']
     LoginView: typeof import('./src/components/login/LoginView.vue')['default']
     MenuView: typeof import('./src/components/menu/MenuView.vue')['default']
     NavView: typeof import('./src/components/nav/NavView.vue')['default']
@@ -62,12 +65,12 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SearchDialog: typeof import('./src/components/search/SearchDialog.vue')['default']
     ToolForm: typeof import('./src/components/form/ToolForm.vue')['default']
+    UpdatePwd: typeof import('./src/components/drawer/UpdatePwd.vue')['default']
     UpdateUser: typeof import('./src/components/drawer/UpdateUser.vue')['default']
     UploadInterView: typeof import('./src/components/drawer/UploadInterView.vue')['default']
     UploadTag: typeof import('./src/components/drawer/UploadTag.vue')['default']
     UploadTool: typeof import('./src/components/drawer/UploadTool.vue')['default']
     UploadWork: typeof import('./src/components/drawer/UploadWork.vue')['default']
-    UserInfo: typeof import('./src/components/drawer/UserInfo.vue')['default']
     UserSearch: typeof import('./src/components/search/UserSearch.vue')['default']
     UserView: typeof import('./src/components/login/UserView.vue')['default']
     WorkForm: typeof import('./src/components/form/WorkForm.vue')['default']

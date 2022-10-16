@@ -8,8 +8,10 @@
       >
         >
         <div class="article">
-          <h3>{{ item.title }}</h3>
-          <span>{{ day(item.createTime).format("YYYY-MM-DD") }}</span>
+          <h2>{{ item.title }}</h2>
+          <span style="font-size: 20px">{{
+            day(item.createTime).format("YYYY-MM-DD")
+          }}</span>
           <div class="body_html" v-html="item.summary"></div>
           <div class="footer">
             <div class="tag">
@@ -19,7 +21,9 @@
             </div>
             <div class="view">
               <div style="display: flex">
-                <el-icon class="icon"><View /></el-icon><span>{{ item.viewCount }}</span>
+                <span>阅读数</span>
+                <el-icon class="icon" style="font-size: 26px"><View /></el-icon
+                ><span>{{ item.viewCount }}</span>
               </div>
             </div>
           </div>
@@ -87,7 +91,6 @@ onMounted(() => {
 const handleCurrentChange = (val: number) => {
   pageParams.page = val;
   articleList();
-
   scrollTop();
 };
 const scrollTop = (selector) => {
@@ -107,11 +110,13 @@ const scrollTop = (selector) => {
   transform: translateX(30px);
 }
 .article {
+  color: #ffff;
+  height: 260px;
   font-family: "Comic Sans MS", cursive;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(195, 209, 207);
+  justify-content: space-evenly;
   border-radius: 10px;
   background-image: linear-gradient(to right, #acb6e5, #86fde8);
   .body_html {
@@ -120,6 +125,7 @@ const scrollTop = (selector) => {
     -webkit-line-clamp: 3;
     overflow: hidden;
     text-indent: 2em;
+    font-size: 18px;
   }
   .footer {
     display: flex;
@@ -137,8 +143,8 @@ const scrollTop = (selector) => {
       justify-content: space-around;
       width: 20%;
       span {
-        font-size: 12px;
-        color: rgb(226, 35, 35);
+        font-size: 20px;
+        color: #1be2d4;
       }
     }
   }

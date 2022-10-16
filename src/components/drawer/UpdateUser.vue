@@ -155,10 +155,10 @@ const rules = reactive({
   nickName: [
     {
       min: 3,
-      max: 5,
+      max: 7,
       trigger: "blur",
       required: false,
-      message: "昵称在3-5个字符",
+      message: "昵称在3-7个字符",
     },
   ],
   phone: [{ trigger: "blur", required: false, validator: checkPhone }],

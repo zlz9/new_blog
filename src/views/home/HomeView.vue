@@ -19,6 +19,7 @@
         </el-aside>
       </el-container>
     </el-container>
+    <FooterView />
   </div>
 </template>
 

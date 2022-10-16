@@ -10,21 +10,33 @@
       </div>
       <div class="user_details_tag">
         <div class="user_details">
-          <div class="status">账号状态：{{ userDetails.status ? "正常" : "锁定" }}</div>
+          <div class="status">
+            账号状态：<span class="mark">{{ userDetails.status ? "正常" : "锁定" }}</span>
+          </div>
           <div class="article_count">
-            {{ userDetails.userInfo.nickName }}的文章数：{{ userDetails.articleCount }}
+            {{ userDetails.userInfo.nickName }}的文章数：<span class="mark">{{
+              userDetails.articleCount
+            }}</span>
           </div>
           <div class="work_count">
-            {{ userDetails.userInfo.nickName }}的作品数：{{ userDetails.workCount }}
+            {{ userDetails.userInfo.nickName }}的作品数：<span class="mark">{{
+              userDetails.workCount
+            }}</span>
           </div>
           <div class="tool_count">
-            {{ userDetails.userInfo.nickName }}的工具：{{ userDetails.toolCount }}
+            {{ userDetails.userInfo.nickName }}的工具：<span class="mark">{{
+              userDetails.toolCount
+            }}</span>
           </div>
           <div class="role">
-            {{ userDetails.userInfo.nickName }}的角色：{{ userRole }}
+            {{ userDetails.userInfo.nickName }}的角色：<span class="mark">{{
+              userRole
+            }}</span>
           </div>
           <div class="email">
-            {{ userDetails.userInfo.nickName }}的邮箱：{{ userDetails.email }}
+            {{ userDetails.userInfo.nickName }}的邮箱：<span class="mark">{{
+              userDetails.email
+            }}</span>
           </div>
         </div>
         <div class="tags">
@@ -47,6 +59,7 @@
           <el-button @click="admin(userDetails.userInfo.id, 2)">设为管理员</el-button>
           <el-button @click="lock(userDetails.userInfo.id)">强制下线并锁定</el-button>
           <el-button @click="unlock(userDetails.userInfo.id)">解锁用户</el-button>
+          <el-button @click="reloadPwd(userDetails.userInfo.id)">重置密码</el-button>
         </div>
       </div>
     </el-card>
@@ -55,9 +68,10 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { setRoleApi } from "@/api";
+import { setRoleApi, reloadPwdApi } from "@/api";
 import { ref, reactive, watch } from "vue";
 import { userDetailsApi, lockUserApi, unlockUserApi } from "@/api";
+import { ElMessage } from "element-plus";
 const route = useRoute();
 const userId = route.query.id;
 let userRole = ref();
@@ -72,29 +86,66 @@ let userDetails = reactive({
   workCount: "",
 });
 
+//重置用户密码
+const reloadPwd = (id) => {
+  reloadPwdApi(id).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: `${res.msg}`,
+        type: "success",
+      });
+    }
+  });
+};
+
 const lock = (id) => {
   lockUserApi(id).then((res) => {
-    console.log(res);
+    if (res.code == 200) {
+      ElMessage({
+        message: `${res.msg}`,
+        type: "success",
+      });
+    }
   });
 };
 const unlock = (id) => {
   unlockUserApi(id).then((res) => {
-    console.log(res);
+    if (res.code == 200) {
+      ElMessage({
+        message: `${res.msg}`,
+        type: "success",
+      });
+    }
   });
 };
 const vip = (id, role) => {
   setRoleApi({ id, role }).then((res) => {
-    console.log(res, "res");
+    if (res.code == 200) {
+      ElMessage({
+        message: `${res.msg}`,
+        type: "success",
+      });
+    }
   });
 };
 const user = (id, role) => {
   setRoleApi({ id, role }).then((res) => {
-    console.log(res, "res");
+    if (res.code == 200) {
+      ElMessage({
+        message: `${res.msg}`,
+        type: "success",
+      });
+    }
   });
 };
 const admin = (id, role) => {
   setRoleApi({ id, role }).then((res) => {
-    console.log(res, "res");
+    if (res.code == 200) {
+      ElMessage({
+        message: `${res.msg}`,
+        type: "success",
+      });
+    }
   });
 };
 userDetailsApi(userId).then((res) => {
@@ -168,6 +219,13 @@ $font-family: "Comic Sans MS", cursive;
     justify-content: space-around;
     padding: 10px;
     margin: 10px;
+    .user_details {
+      font-family: $font-family;
+      .mark {
+        font-weight: bolder;
+        color: #1caca0;
+      }
+    }
   }
   .tags {
     .tag_details {

@@ -1,7 +1,7 @@
 <template>
   <div class="title">开发工具</div>
   <el-divider></el-divider>
-  <el-table :data="toolData.tools" style="width: 100%">
+  <el-table :data="toolData.tools" style="width: 100%" @cell-dblclick="goToolInfo">
     <el-table-column label="创建时间" width="500">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -54,6 +54,8 @@ import { Timer } from "@element-plus/icons-vue";
 import { ref, reactive, onMounted } from "vue";
 import { getToolApi, deleteToolApi } from "@/api";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+const router = useRouter();
 let pageParams = reactive({
   page: 1,
   pageSize: 10,
@@ -86,6 +88,10 @@ const handleDelete = (index: number, row: any) => {
   });
 };
 
+// 去工具详情页
+const goToolInfo = (row) => {
+  router.push({ path: "/tools", query: { id: row.id } });
+};
 /**
  * 分页查询
  */
