@@ -15,13 +15,28 @@
         class="demo-ruleForm"
       >
         <el-form-item label="旧密码" prop="oldPassword">
-          <el-input v-model="ruleForm.oldPassword" autocomplete="off" />
+          <el-input
+            v-model="ruleForm.oldPassword"
+            autocomplete="off"
+            type="password"
+            show-password
+          />
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
-          <el-input v-model="ruleForm.newPassword" autocomplete="off" />
+          <el-input
+            v-model="ruleForm.newPassword"
+            autocomplete="off"
+            type="password"
+            show-password
+          />
         </el-form-item>
         <el-form-item label="再次输入新密码" prop="checkPassword">
-          <el-input v-model="ruleForm.checkPassword" autocomplete="off" />
+          <el-input
+            v-model="ruleForm.checkPassword"
+            autocomplete="off"
+            type="password"
+            show-password
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)" color="#626aef"

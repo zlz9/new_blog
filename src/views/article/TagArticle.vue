@@ -13,6 +13,12 @@
               <span></span>
               <div class="bottom">
                 <time class="time">{{ item.tagName }}</time>
+                <el-button
+                  :icon="Delete"
+                  circle
+                  v-if="userStore.userInfo.role == '超级管理员'"
+                  @click="del(item.tagId)"
+                />
                 <el-button text class="button" @click="showArticleInfo(item.tagId)"
                   >查看详情</el-button
                 >
@@ -49,10 +55,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useTagStore } from "@/store/tag";
-import { getTag } from "@/api";
+import { getTag, delTag } from "@/api";
 import { tag } from "@/model/tag";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
+import { ElMessage } from "element-plus";
+import { Delete } from "@element-plus/icons-vue";
 const userStore = useUserStore();
 const router = useRouter();
 const $upload = ref();
@@ -76,7 +84,21 @@ onMounted(() => {
 
 const refresh = () => {
   // 再次请求数据
-  tagList;
+  getTag;
+};
+// 删除标签
+const del = (id) => {
+  delTag(id).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        type: "success",
+        message: "删除成功",
+      });
+      setTimeout(() => {
+        getTag();
+      }, 1000);
+    }
+  });
 };
 </script>
 

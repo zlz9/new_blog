@@ -36,6 +36,26 @@
           />
         </el-form-item>
 
+        <el-form-item prop="password">
+          <el-input
+            v-model="ruleForm.password"
+            type="password"
+            autocomplete="off"
+            placeholder="请输入密码"
+            show-password
+          />
+        </el-form-item>
+
+        <el-form-item prop="checkPass">
+          <el-input
+            v-model="ruleForm.checkPass"
+            type="password"
+            autocomplete="off"
+            placeholder="请再次确认密码"
+            show-password
+          />
+        </el-form-item>
+
         <el-form-item prop="code">
           <div style="display: flex; width: 100%">
             <el-input
@@ -56,31 +76,13 @@
           </div>
         </el-form-item>
 
-        <el-form-item prop="password">
-          <el-input
-            v-model="ruleForm.password"
-            type="password"
-            autocomplete="off"
-            placeholder="请输入密码"
-          />
-        </el-form-item>
-
-        <el-form-item prop="checkPass">
-          <el-input
-            v-model="ruleForm.checkPass"
-            type="password"
-            autocomplete="off"
-            placeholder="请再次确认密码"
-          />
-        </el-form-item>
-
         <el-form-item>
           <el-link type="primary" @click="goLogin">已有账号？</el-link>
         </el-form-item>
 
         <el-form-item>
           <div class="btn">
-            <el-button @click="submitForm(ruleFormRef)">登录</el-button>
+            <el-button @click="submitForm(ruleFormRef)">注册</el-button>
             <el-button @click="resetForm(ruleFormRef)">重置</el-button>
           </div>
         </el-form-item>
@@ -231,7 +233,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           setTimeout(() => {
             router.push("/login");
           }, 1500);
-        } else if (res.code == 445) {
+        } else {
           ElMessage({
             type: "error",
             message: `${res.msg}`,

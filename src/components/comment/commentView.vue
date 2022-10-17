@@ -45,7 +45,7 @@
           </div>
           <!-- 二级评论 -->
           <template
-            v-for="(subItem, index) in item.childrens.slice(0, 50)"
+            v-for="(subItem, index) in item.childrens.slice(0, 20)"
             :key="subItem.id"
           >
             <div class="sub_user_comments">

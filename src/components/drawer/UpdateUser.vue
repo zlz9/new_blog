@@ -115,6 +115,11 @@ const updateUserInfo = () => {
       setTimeout(() => {
         upload.value = false;
       }, 1000);
+    } else {
+      ElMessage({
+        type: "error",
+        message: `${res.msg}`,
+      });
     }
   });
 };
@@ -199,5 +204,6 @@ defineExpose({ upload });
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f3dcf5;
 }
 </style>

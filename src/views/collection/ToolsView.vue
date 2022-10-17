@@ -12,15 +12,17 @@
             <el-card>
               <img v-lazy="item.cover" alt="" class="cover" />
               <div class="footer">
-                <el-link class="link" size="20" :href="item.link">链接</el-link>
+                <el-link class="link" size="20" :href="item.link" target="_blank"
+                  >链接</el-link
+                >
                 <el-tooltip effect="dark" placement="top">
                   <template #content>
                     <div class="detail">
                       {{ item.summary }}
                     </div>
                   </template>
-                  <el-link class="summary" size="20"> 详情 </el-link></el-tooltip
-                >
+                  <el-link class="summary" size="20"> 详情 </el-link>
+                </el-tooltip>
               </div>
             </el-card>
           </div></el-col

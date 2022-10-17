@@ -10,7 +10,11 @@
         leave-active-class="animate__animated animate__fadeOut"
       >
         <el-col :span="4" v-for="(item, index) in dataList" :key="item.id">
-          <div class="inter_view_item" style="margin: 10px">
+          <div
+            class="inter_view_item"
+            style="margin: 10px"
+            @click="goInterview(item.link)"
+          >
             <img v-lazy="item.cover" alt="" />
           </div>
           <div style="display: flex; justify-content: space-around">
@@ -70,7 +74,10 @@ const $upload = ref();
 const showUpload = () => {
   $upload.value.upload = true;
 };
-
+// 去链接
+const goInterview = (link) => {
+  window.open(link);
+};
 // 删除面试资料
 const del = (id) => {
   return delInterView(id).then((res) => {

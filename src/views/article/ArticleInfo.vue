@@ -10,15 +10,15 @@
         <div class="motto">{{ userInfo.motto }}</div>
       </el-card>
       <el-divider />
+      <!-- 文章推荐 -->
       <el-card>
         <div class="more_info">
-          <el-table :data="articleList">
+          <el-table :data="articleList" @cell-dblclick="goInfo">
             <el-table-column prop="title" label="优质文章推荐" />
           </el-table>
         </div>
       </el-card>
     </div>
-
     <div class="article">
       <el-card class="head">
         <div class="title">{{ article.title }}</div>
@@ -45,6 +45,7 @@ import { useRoute, useRouter } from "vue-router";
 import { articleInfo } from "@/api";
 import { ref, reactive, computed, watch, onMounted } from "vue";
 import { useArticleStore } from "@/store/article";
+const router = useRouter();
 const route = useRoute();
 const articleStore = useArticleStore();
 
@@ -53,6 +54,12 @@ const articleStore = useArticleStore();
  */
 
 articleStore.getRecommendArticle();
+
+const goInfo = (row) => {
+  console.log(row.id);
+
+  router.push({ path: "/article/info", query: { id: row.id } });
+};
 
 const articleList = computed({
   get() {

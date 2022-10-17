@@ -21,9 +21,9 @@
             </div>
             <div class="view">
               <div style="display: flex">
-                <span>阅读数</span>
-                <el-icon class="icon" style="font-size: 26px"><View /></el-icon
-                ><span>{{ item.viewCount }}</span>
+                <span>阅读数:</span>
+
+                <span>{{ item.viewCount }}</span>
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ const scrollTop = (selector) => {
       width: 20%;
       span {
         font-size: 20px;
-        color: #1be2d4;
+        color: #2b4a48;
       }
     }
   }

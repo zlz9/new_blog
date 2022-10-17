@@ -29,9 +29,9 @@
           <el-input
             v-model="ruleForm.password"
             type="password"
+            show-password
             autocomplete="off"
             placeholder="请输入密码"
-            show-password
           />
         </el-form-item>
         <el-form-item prop="code" class="code">

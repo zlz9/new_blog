@@ -1,52 +1,54 @@
 <template>
-  <div class="title">作品管理</div>
-  <el-divider></el-divider>
-  <el-table :data="workData.workList" style="width: 100%" @cell-dblclick="goWorkInfo">
-    <el-table-column label="创建时间" width="500">
-      <template #default="scope">
-        <div style="display: flex; align-items: center">
-          <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{
-            day(scope.row.createTime).format("YYYY - MM - DD")
-          }}</span>
-        </div>
-      </template>
-    </el-table-column>
-    <el-table-column label="项目名称" width="500">
-      <template #default="scope">
-        <el-popover effect="light" trigger="hover" placement="top" width="auto">
-          <template #default>
-            <div>项目名称:{{ scope.row.name }}</div>
-            <div>项目定位:{{ scope.row.description }}</div>
-          </template>
-          <template #reference>
-            <el-tag>{{ scope.row.name }}</el-tag>
-          </template>
-        </el-popover>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template #default="scope">
-        <el-popconfirm
-          title="是否确定删除?"
-          @confirm="handleDelete(scope.$index, scope.row)"
-        >
-          <template #reference>
-            <el-button color="#eb0808" size="large">删除</el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-table-column>
-  </el-table>
-  <el-pagination
-    style="justify-content: end"
-    hide-on-single-page
-    v-model:currentPage="pageParams.page"
-    v-model:page-size="pageParams.pageSize"
-    layout="prev, pager, next, jumper"
-    :total="workData.total"
-    @current-change="handleCurrentChange"
-  />
+  <div v-permission="userStore.userInfo.role">
+    <div class="title">作品管理</div>
+    <el-divider></el-divider>
+    <el-table :data="workData.workList" style="width: 100%" @cell-dblclick="goWorkInfo">
+      <el-table-column label="创建时间" width="500">
+        <template #default="scope">
+          <div style="display: flex; align-items: center">
+            <el-icon><timer /></el-icon>
+            <span style="margin-left: 10px">{{
+              day(scope.row.createTime).format("YYYY - MM - DD")
+            }}</span>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="项目名称" width="500">
+        <template #default="scope">
+          <el-popover effect="light" trigger="hover" placement="top" width="auto">
+            <template #default>
+              <div>项目名称:{{ scope.row.name }}</div>
+              <div>项目定位:{{ scope.row.description }}</div>
+            </template>
+            <template #reference>
+              <el-tag>{{ scope.row.name }}</el-tag>
+            </template>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template #default="scope">
+          <el-popconfirm
+            title="是否确定删除?"
+            @confirm="handleDelete(scope.$index, scope.row)"
+          >
+            <template #reference>
+              <el-button color="#eb0808" size="large">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      style="justify-content: end"
+      hide-on-single-page
+      v-model:currentPage="pageParams.page"
+      v-model:page-size="pageParams.pageSize"
+      layout="prev, pager, next, jumper"
+      :total="workData.total"
+      @current-change="handleCurrentChange"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -55,6 +57,8 @@ import { ref, reactive, onMounted } from "vue";
 import { getWorksApi, deleteWorkApi } from "@/api";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/user";
+const userStore = useUserStore();
 const router = useRouter();
 let workData = reactive({
   workList: [],

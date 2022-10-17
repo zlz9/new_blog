@@ -42,8 +42,8 @@
         label-width="120px"
         class="demo-ruleForm"
       >
-        <el-form-item label="标签名称" prop="name">
-          <el-input v-model="ruleForm.name" autocomplete="off" />
+        <el-form-item label="标签名称" prop="tagName">
+          <el-input v-model="ruleForm.tagName" autocomplete="off" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)" color="#626aef"
@@ -61,7 +61,7 @@ import { ref, reactive, defineExpose, defineEmits } from "vue";
 import type { UploadFile } from "element-plus";
 import { Plus, ZoomIn } from "@element-plus/icons-vue";
 import type { FormInstance } from "element-plus";
-import { uploadInterviewApi, addImgApi } from "@/api";
+import { addTag, addImgApi } from "@/api";
 import { ElMessage } from "element-plus";
 const $upload = ref();
 const emit = defineEmits<{ (e: "handle"): void }>();
@@ -79,10 +79,10 @@ const uploadFile = (option: any) => {
   addImgApi(formData)
     .then((res) => {
       console.log(res);
-      ruleForm.cover = res.msg;
+      ruleForm.tagCover = res.msg;
     })
     .then(() => {
-      uploadInterviewApi(ruleForm).then((res) => {
+      addTag(ruleForm).then((res) => {
         /**
          * 上传成功
          * 关闭对话框
@@ -108,11 +108,12 @@ const uploadFile = (option: any) => {
 const ruleFormRef = ref<FormInstance>();
 
 let ruleForm = reactive({
-  name: "",
+  tagName: "",
+  tagCover: "",
 });
 
 const rules = reactive({
-  name: [
+  tagName: [
     {
       min: 3,
       max: 8,

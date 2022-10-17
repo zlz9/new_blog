@@ -36,7 +36,6 @@ export const searchArticle = (title: string): Promise<object> => {
 };
 
 // /api/user/perms 获取当前用户权限
-
 export const getPermsApi = (): Promise<Iperms> => {
   return requests.get("/api/user/perms");
 };
@@ -256,4 +255,12 @@ export const newpassword = (data: any) => {
 // 统计30天文章分布 /api/article/month/all
 export const getArticleMonth = () => {
   return requests.get("/api/article/month/all");
+};
+// 上传文章标签 /api/article/tag/add/
+export const addTag = (data: any) => {
+  return requests.post("/api/article/tag/add", data);
+};
+// 删除文章标签 /api/delete/tag/{id} get
+export const delTag = (id: any) => {
+  return requests.get(`/api/delete/tag/${id}`);
 };
